@@ -1,4 +1,3 @@
-```typescript
 import { MemorySystemFactory } from '../core/memory/memory-factory.js';
 import { MemoryOptimizer } from '../core/memory/utils/memory-optimization.js';
 import { logger } from '../core/utils/logger.js';
@@ -47,4 +46,3 @@ if (require.main === module) {
 }
 
 export { optimizeMemory };
-```

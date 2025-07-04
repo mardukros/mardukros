@@ -243,48 +243,12 @@ export class MemoryOptimizer {
           item.metadata = item.metadata || {};
           item.metadata.isCompressed = true;
         }
-      }
+      }));
     }
     
-    // Update last optimization time
-    this.lastOptimizationTime = Date.now();
-    results.timeElapsedMs = Date.now() - startTime;
-    
-    logger.info(`Memory optimization complete - elapsed time: ${results.timeElapsedMs}ms, errors: ${results.errorCount}`);
-    return results;
-  } catch (error) {
-    // Handle unexpected errors
-    const unexpectedError = new MemoryOptimizationError('Unexpected error during memory optimization',
-      error instanceof Error ? error : undefined);
-    results.errors.push(unexpectedError);
-    results.errorCount++;
-    logger.error(`Memory optimization failed with unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    return {...results, timeElapsedMs: Date.now() - startTime};
-  } finally {
-    this.isOptimizationInProgress = false;
+    logger.info(`Compressed ${items.size} memory items in batches of ${this.BATCH_SIZE}`);
   }
-}
 
-private async compressItems(items: Map<string | number, MemoryItem>): Promise<void> {
-  const itemBatches = this.batchItems(Array.from(items.values()));
-  
-  for (const batch of itemBatches) {
-    await Promise.all(batch.map(async item => {
-      if (typeof item.content === 'string') {
-        item.content = await this.compressString(item.content);
-        // Mark item as compressed in metadata for tracking
-        item.metadata = item.metadata || {};
-        item.metadata.isCompressed = true;
-      } else if (typeof item.content === 'object') {
-        item.content = await this.compressObject(item.content);
-        // Mark item as compressed in metadata for tracking
-        item.metadata = item.metadata || {};
-        item.metadata.isCompressed = true;
-      }
-    }));
-  }
-  logger.info(`Compressed ${items.size} memory items in batches of ${this.BATCH_SIZE}`);
-}
 
 /**
  * Enhanced string compression with multiple strategies based on string characteristics
@@ -915,4 +879,5 @@ private selectItemToRemove(item1: MemoryItem, item2: MemoryItem): MemoryItem {
   const timestamp2 = (item2.metadata?.lastAccessed as number) || 0;
 
   return timestamp1 < timestamp2 ? item1 : item2;
+}
 }
