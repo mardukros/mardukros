@@ -1,0 +1,37 @@
+name: Backup Marduk Directory
+
+on:
+#  push:
+#    branches:
+#      - main  # Trigger the action on pushes to the main branch
+  workflow_dispatch:  # Allow manual triggering of the workflow
+
+jobs:
+  backup:
+    name: Backup marduk-ts
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Create Backup Directory
+      - name: Backup marduk-ts to marduk-ts-old
+        run: |
+          if [ -d "./marduk-ts" ]; then
+            rm -rf ./marduk-ts-old  # Remove existing backup
+            cp -r ./marduk-ts ./marduk-ts-old  # Copy contents to backup
+            echo "Backup completed: marduk-ts copied to marduk-ts-old."
+          else
+            echo "Directory marduk-ts does not exist. Skipping backup."
+          fi
+
+      # Step 3: Commit and Push the Backup
+      - name: Commit and Push Backup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ./marduk-ts-old
+          git commit -m "Backup marduk-ts to marduk-ts-old on $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          git push

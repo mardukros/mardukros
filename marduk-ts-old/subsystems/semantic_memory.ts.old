@@ -1,0 +1,44 @@
+// Semantic Memory identifies relationships and patterns between concepts
+
+import { Message, TaskMessage, ResponseMessage } from "../types/messages.ts";
+
+const ws = new WebSocket("ws://localhost:8080");
+
+// Simulated semantic graph
+const semanticLinks = [
+  { concept1: "Chaos Theory", concept2: "Dynamic Systems", relation: "is related to" },
+  { concept1: "Dynamic Systems", concept2: "Nonlinear Equations", relation: "is foundational for" },
+  { concept1: "Bug Fixes", concept2: "Procedural Workflows", relation: "requires" },
+];
+
+ws.onopen = () => {
+  console.log("Semantic Memory connected to WebSocket server");
+  ws.send(JSON.stringify({ type: "register", subsystem: "semantic_memory" }));
+};
+
+ws.onmessage = (event) => {
+  try {
+    const message: Message = JSON.parse(event.data);
+
+    if (message.type === "task" && message.query.includes("relationship")) {
+      const matchingLinks = querySemanticLinks(message.query);
+      const response: ResponseMessage = {
+        type: "response",
+        subsystem: "semantic_memory",
+        task_id: message.task_id,
+        result: matchingLinks,
+      };
+      ws.send(JSON.stringify(response));
+    }
+  } catch (error) {
+    console.error("Error processing task:", error);
+  }
+};
+
+function querySemanticLinks(query: string): string[] {
+  // Example: Search for semantic links between concepts
+  return semanticLinks.map(
+    (link) => `${link.concept1} ${link.relation} ${link.concept2}`
+  );
+}
+

@@ -1,0 +1,70 @@
+// This file handles WebSocket connections, message broadcasting, and subsystem registration
+// The server now maintains a registry of connected subsystems and forwards task messages to specific subsystems if specified
+
+import { serve } from "https://deno.land/std@0.118.0/http/server.ts";
+import { Message, TaskMessage, ResponseMessage } from "./types/messages.ts";
+
+// A map to store subsystem connections
+const subsystems: Map<string, WebSocket> = new Map();
+
+async function websocketHandler(request: Request): Promise<Response> {
+  if (request.headers.get("upgrade") === "websocket") {
+    const { socket, response } = Deno.upgradeWebSocket(request);
+
+    socket.onmessage = (event) => {
+      const message: Message = JSON.parse(event.data);
+      console.log("Received message:", message);
+
+      // Handle subsystem registration
+      if (message.type === "register" && "subsystem" in message) {
+        subsystems.set(message.subsystem, socket);
+        console.log(`Subsystem registered: ${message.subsystem}`);
+      }
+
+      // Handle task messages
+      if (message.type === "task") {
+        handleTaskMessage(message, socket);
+      }
+
+      // Handle response messages
+      if (message.type === "response") {
+        console.log(`Response from ${message.subsystem}:`, message.result);
+      }
+    };
+
+    socket.onclose = () => {
+      // Remove the subsystem on disconnection
+      subsystems.forEach((s, name) => {
+        if (s === socket) {
+          subsystems.delete(name);
+          console.log(`Subsystem disconnected: ${name}`);
+        }
+      });
+    };
+
+    return response;
+  }
+
+  return new Response("WebSocket server is running");
+}
+
+function handleTaskMessage(message: TaskMessage, senderSocket: WebSocket) {
+  if (message.target && subsystems.has(message.target)) {
+    // Send task to the specific target subsystem
+    const targetSocket = subsystems.get(message.target);
+    targetSocket?.send(JSON.stringify(message));
+    console.log(`Task sent to subsystem: ${message.target}`);
+  } else {
+    // Broadcast the task to all subsystems
+    subsystems.forEach((socket, subsystem) => {
+      if (socket !== senderSocket) {
+        socket.send(JSON.stringify(message));
+      }
+    });
+    console.log("Task broadcasted to all subsystems.");
+  }
+}
+
+console.log("WebSocket server is running on ws://localhost:8080");
+await serve(websocketHandler, { port: 8080 });
+
