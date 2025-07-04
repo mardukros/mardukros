@@ -1,0 +1,39 @@
+name: Marduk Cycle Test
+
+on:
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  marduk-test:
+    name: Run Marduk Cycles
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set Up Deno
+      - name: Set Up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: "1.x"
+
+      # Step 3: Run Marduk Cycles
+      - name: Run Marduk Cycle
+        run: |
+          for i in {1..6}; do
+            echo "Starting Marduk Cycle $i..."
+            deno run --allow-read --allow-write ./marduk-ts/cycle_simulation.ts
+            echo "Cycle $i complete."
+            sleep 300 # Wait for 5 minutes before the next cycle
+          done
+
+      # Step 4: Commit Changes
+      - name: Commit Simulation Results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ./sim
+          git commit -m "Cycle simulation updates at $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          git push

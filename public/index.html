@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marduk Cognitive Architecture</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #0a0a0a;
+      color: #00ff00;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #00ff00;
+      padding-bottom: 20px;
+    }
+    h1 {
+      font-size: 2.5em;
+      text-shadow: 0 0 10px #00ff00;
+    }
+    .architecture-diagram {
+      background-color: #0f0f0f;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
+      padding: 20px;
+      margin: 20px 0;
+      white-space: pre;
+      font-family: monospace;
+      overflow-x: auto;
+    }
+    .subsystem {
+      margin-bottom: 30px;
+      padding: 15px;
+      background-color: #0f0f0f;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
+    }
+    .subsystem h2 {
+      margin-top: 0;
+      color: #00ff00;
+      text-shadow: 0 0 5px #00ff00;
+    }
+    .status {
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #0f0f0f;
+      border-radius: 3px;
+      overflow-y: auto;
+      height: 200px;
+    }
+    .status-message {
+      margin: 5px 0;
+      padding: 5px;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    button {
+      background-color: #003300;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      padding: 10px 15px;
+      font-family: 'Courier New', monospace;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s;
+    }
+    button:hover {
+      background-color: #004400;
+      box-shadow: 0 0 10px #00ff00;
+    }
+    button:active {
+      background-color: #00ff00;
+      color: #000;
+    }
+    .cycle-step {
+      opacity: 0.3;
+      transition: opacity 0.5s;
+    }
+    .cycle-step.active {
+      opacity: 1;
+      text-shadow: 0 0 10px #00ff00;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .metric {
+      padding: 15px;
+      background-color: #0f0f0f;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
+    }
+    .metric h3 {
+      margin-top: 0;
+      color: #00ff00;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { opacity: 0.7; }
+    }
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>MARDUK COGNITIVE ARCHITECTURE</h1>
+      <p>A TypeScript-based cognitive architecture framework implementing advanced memory subsystems, task management, AI integration capabilities with autonomous self-optimization</p>
+    </header>
+
+    <div class="controls">
+      <button id="start-cycle">Start Cognitive Cycle</button>
+      <button id="visualize-memory">Visualize Memory</button>
+      <button id="visualize-task">Visualize Task System</button>
+      <button id="visualize-ai">Visualize AI System</button>
+      <button id="visualize-autonomy">Visualize Autonomy</button>
+    </div>
+
+    <div class="architecture-diagram" id="architecture-diagram">
+      <pre>
+╔════════════════════════════ MARDUK COGNITIVE ARCHITECTURE ═══════════════════════════╗
+║                                                                                       ║
+║      ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ║
+║      │   Memory    │────→│    Task     │────→│     AI      │────→│  Autonomy   │     ║
+║      │   System    │←────│   System    │←────│   System    │←────│   System    │     ║
+║      └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘     ║
+║             ↑                   ↑                   ↑                   ↑             ║
+║             ╰───────────────────┼───────────────────┼───────────────────╯             ║
+║                                 │                   │                                 ║
+║                         ┌───────┴───────┐   ┌───────┴───────┐                         ║
+║      </pre><div id="pulse" class="pulse"><pre>                   │  Deliberation │←──│ Meta-Cognition│                         ║
+║                         │     Cycle     │──→│    System     │                         ║</pre></div><pre>
+║                         └───────────────┘   └───────────────┘                         ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+      </pre>
+    </div>
+
+    <div class="subsystem">
+      <h2>Cognitive Cycle Visualization</h2>
+      <div id="cycle-steps">
+        <div class="cycle-step" id="step-1">1. PERCEPTION → Input processing and initial analysis</div>
+        <div class="cycle-step" id="step-2">2. MEMORY ACCESS → Retrieval of relevant information from memory subsystems</div>
+        <div class="cycle-step" id="step-3">3. DELIBERATION → Processing information and generating response options</div>
+        <div class="cycle-step" id="step-4">4. TASK PLANNING → Creating a structured plan for execution</div>
+        <div class="cycle-step" id="step-5">5. EXECUTION → Carrying out the planned tasks</div>
+        <div class="cycle-step" id="step-6">6. LEARNING → Updating memory based on outcomes</div>
+        <div class="cycle-step" id="step-7">7. OPTIMIZATION → Self-modification to improve performance</div>
+      </div>
+    </div>
+
+    <div class="dashboard">
+      <div class="metric">
+        <h3>Memory Utilization</h3>
+        <div id="memory-stats">
+          <div>Declarative Memory: <span id="declarative-count">0</span> items</div>
+          <div>Episodic Memory: <span id="episodic-count">0</span> items</div>
+          <div>Procedural Memory: <span id="procedural-count">0</span> items</div>
+          <div>Semantic Memory: <span id="semantic-count">0</span> items</div>
+        </div>
+      </div>
+      <div class="metric">
+        <h3>System Performance</h3>
+        <div id="performance-metrics">
+          <div>CPU Usage: <span id="cpu-usage">5%</span></div>
+          <div>Memory Usage: <span id="memory-usage">120MB</span></div>
+          <div>Response Time: <span id="response-time">42ms</span></div>
+          <div>Active Tasks: <span id="active-tasks">3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsystem">
+      <h2>System Status</h2>
+      <div class="status" id="status">
+        <div class="status-message">System initialized.</div>
+        <div class="status-message">Memory subsystems online.</div>
+        <div class="status-message">Task scheduler ready.</div>
+        <div class="status-message">AI coordinator connected.</div>
+        <div class="status-message">Autonomy system monitoring active.</div>
+        <div class="status-message">⚡ Cognitive architecture harmonized! ⚡</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // WebSocket connection
+    let socket;
+    let cycleTimeout;
+    let currentStep = 0;
+    const cycleSteps = 7;
+
+    // Function to connect WebSocket
+    function connectWebSocket() {
+      const statusDiv = document.getElementById('status');
+      
+      // Get the current host and use it for the WebSocket connection
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const host = window.location.host;
+      const wsUrl = `${protocol}//${host}`;
+      
+      try {
+        socket = new WebSocket(wsUrl);
+        
+        socket.onopen = function() {
+          addStatusMessage('WebSocket connection established!');
+          socket.send(JSON.stringify({
+            type: 'status',
+            data: { message: 'Frontend connected' }
+          }));
+        };
+        
+        socket.onmessage = function(event) {
+          try {
+            const data = JSON.parse(event.data);
+            handleWebSocketMessage(data);
+          } catch (error) {
+            addStatusMessage(`Error parsing message: ${error.message}`);
+          }
+        };
+        
+        socket.onerror = function(error) {
+          console.error('WebSocket error:', error);
+          addStatusMessage('WebSocket error occurred.');
+        };
+        
+        socket.onclose = function() {
+          addStatusMessage('WebSocket connection closed. Attempting to reconnect...');
+          setTimeout(connectWebSocket, 3000);
+        };
+      } catch (error) {
+        addStatusMessage(`Failed to connect: ${error.message}`);
+        setTimeout(connectWebSocket, 5000);
+      }
+    }
+
+    // Handle incoming WebSocket messages
+    function handleWebSocketMessage(data) {
+      switch(data.type) {
+        case 'status':
+          addStatusMessage(data.message);
+          break;
+        case 'memoryStats':
+          updateMemoryStats(data.data);
+          break;
+        case 'performanceMetrics':
+          updatePerformanceMetrics(data.data);
+          break;
+        case 'visualization':
+          displayVisualization(data.data);
+          break;
+        default:
+          addStatusMessage(`Received: ${JSON.stringify(data)}`);
+      }
+    }
+
+    // Add a message to the status div
+    function addStatusMessage(message) {
+      const statusDiv = document.getElementById('status');
+      const messageElem = document.createElement('div');
+      messageElem.className = 'status-message';
+      messageElem.textContent = message;
+      statusDiv.appendChild(messageElem);
+      statusDiv.scrollTop = statusDiv.scrollHeight;
+    }
+
+    // Update memory statistics
+    function updateMemoryStats(data) {
+      document.getElementById('declarative-count').textContent = data.declarative || 0;
+      document.getElementById('episodic-count').textContent = data.episodic || 0;
+      document.getElementById('procedural-count').textContent = data.procedural || 0;
+      document.getElementById('semantic-count').textContent = data.semantic || 0;
+    }
+
+    // Update performance metrics
+    function updatePerformanceMetrics(data) {
+      document.getElementById('cpu-usage').textContent = data.cpu || '0%';
+      document.getElementById('memory-usage').textContent = data.memory || '0MB';
+      document.getElementById('response-time').textContent = data.responseTime || '0ms';
+      document.getElementById('active-tasks').textContent = data.activeTasks || 0;
+    }
+
+    // Display a system visualization
+    function displayVisualization(data) {
+      if (data.diagram) {
+        document.getElementById('architecture-diagram').innerHTML = `<pre>${data.diagram}</pre>`;
+      }
+    }
+
+    // Simulate cognitive cycle
+    function runCognitiveCycle() {
+      clearTimeout(cycleTimeout);
+      currentStep = 1;
+      updateCycleVisualization();
+      
+      function nextStep() {
+        if (currentStep <= cycleSteps) {
+          updateCycleVisualization();
+          currentStep++;
+          cycleTimeout = setTimeout(nextStep, 1000);
+        }
+      }
+      
+      nextStep();
+    }
+
+    // Update the cycle visualization
+    function updateCycleVisualization() {
+      // Reset all steps
+      for (let i = 1; i <= cycleSteps; i++) {
+        document.getElementById(`step-${i}`).className = 'cycle-step';
+      }
+      
+      // Highlight current step
+      if (currentStep > 0 && currentStep <= cycleSteps) {
+        document.getElementById(`step-${currentStep}`).className = 'cycle-step active';
+        
+        // Send fake status message about the step
+        const stepMessages = [
+          "Perception phase: Analyzing input data streams...",
+          "Memory access phase: Retrieving relevant patterns and contexts...",
+          "Deliberation phase: Evaluating potential response pathways...",
+          "Task planning phase: Generating execution sequence with dependencies...",
+          "Execution phase: Implementing planned tasks with monitoring...",
+          "Learning phase: Updating memory with new patterns identified...",
+          "Optimization phase: Enhancing neural pathways for future processing..."
+        ];
+        
+        addStatusMessage(stepMessages[currentStep-1]);
+        
+        // Simulate WebSocket message for memory/performance updates
+        if (currentStep === 2) {
+          updateMemoryStats({
+            declarative: Math.floor(Math.random() * 100),
+            episodic: Math.floor(Math.random() * 50),
+            procedural: Math.floor(Math.random() * 30),
+            semantic: Math.floor(Math.random() * 200)
+          });
+        }
+        
+        if (currentStep === 5) {
+          updatePerformanceMetrics({
+            cpu: `${Math.floor(Math.random() * 30 + 10)}%`,
+            memory: `${Math.floor(Math.random() * 300 + 100)}MB`,
+            responseTime: `${Math.floor(Math.random() * 100 + 20)}ms`,
+            activeTasks: Math.floor(Math.random() * 10 + 1)
+          });
+        }
+      }
+    }
+
+    // Initialize the page
+    window.addEventListener('load', function() {
+      // Try to connect WebSocket
+      connectWebSocket();
+      
+      // Setup button event listeners
+      document.getElementById('start-cycle').addEventListener('click', function() {
+        addStatusMessage('⚡ Initiating cognitive cycle simulation... ⚡');
+        runCognitiveCycle();
+      });
+      
+      document.getElementById('visualize-memory').addEventListener('click', function() {
+        addStatusMessage('Visualizing Memory Subsystem...');
+        fetchStatus('memory');
+      });
+      
+      document.getElementById('visualize-task').addEventListener('click', function() {
+        addStatusMessage('Visualizing Task Subsystem...');
+        fetchStatus('task');
+      });
+      
+      document.getElementById('visualize-ai').addEventListener('click', function() {
+        addStatusMessage('Visualizing AI Subsystem...');
+        fetchStatus('ai');
+      });
+      
+      document.getElementById('visualize-autonomy').addEventListener('click', function() {
+        addStatusMessage('Visualizing Autonomy Subsystem...');
+        fetchStatus('autonomy');
+      });
+    });
+    
+    // Function to fetch system status
+    async function fetchStatus(subsystem) {
+      try {
+        // Try to send via WebSocket if connected
+        if (socket && socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({
+            type: 'getVisualization',
+            data: { subsystem: subsystem }
+          }));
+        } else {
+          // Fallback to HTTP request
+          const response = await fetch(`/api/status?subsystem=${subsystem}`);
+          const data = await response.json();
+          
+          if (data && data.visualization) {
+            displayVisualization(data.visualization);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching status:', error);
+        addStatusMessage(`Failed to fetch ${subsystem} visualization: ${error.message || 'Unknown error'}`);
+      }
+    }
+  </script>
+</body>
+</html>

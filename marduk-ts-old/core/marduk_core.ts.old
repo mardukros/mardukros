@@ -1,0 +1,67 @@
+// Marduk Core orchestrates tasks, integrates responses, and logs results for later review
+
+import { Message, TaskMessage, ResponseMessage } from "../types/messages.ts";
+import { writeTextFileSync, readTextFileSync } from "https://deno.land/std@0.118.0/fs/mod.ts";
+
+const ws = new WebSocket("ws://localhost:8080");
+
+// Centralized log file
+const logFile = "./logs/marduk_log.json";
+
+// Simulated tasks
+const tasks: TaskMessage[] = [
+  { type: "task", query: "Retrieve facts about chaos theory", task_id: 1 },
+  { type: "task", query: "Narrate recent events on project X", task_id: 2 },
+  { type: "task", query: "Provide workflows for bug resolution", task_id: 3 },
+  { type: "task", query: "Find relationships between Chaos Theory and Nonlinear Equations", task_id: 4 },
+];
+
+let currentTaskIndex = 0;
+
+ws.onopen = () => {
+  console.log("Marduk Core connected to WebSocket server");
+  scheduleNextTask();
+};
+
+ws.onmessage = (event) => {
+  try {
+    const message: Message = JSON.parse(event.data);
+
+    if (message.type === "response") {
+      console.log(`Response from ${message.subsystem}:`, message.result);
+      logResponse(message);
+      scheduleNextTask(); // Schedule the next task after receiving a response
+    }
+  } catch (error) {
+    console.error("Error processing response:", error);
+  }
+};
+
+function scheduleNextTask() {
+  if (currentTaskIndex < tasks.length) {
+    const task = tasks[currentTaskIndex];
+    ws.send(JSON.stringify(task));
+    currentTaskIndex++;
+    console.log(`Task scheduled: ${task.query}`);
+  } else {
+    console.log("All tasks have been scheduled and completed.");
+  }
+}
+
+function logResponse(response: ResponseMessage) {
+  try {
+    let logs = [];
+    try {
+      logs = JSON.parse(readTextFileSync(logFile));
+    } catch {
+      // File does not exist or is empty, initialize logs
+    }
+
+    logs.push({ timestamp: new Date().toISOString(), response });
+    writeTextFileSync(logFile, JSON.stringify(logs, null, 2));
+    console.log("Response logged successfully.");
+  } catch (error) {
+    console.error("Error logging response:", error);
+  }
+}
+
