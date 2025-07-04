@@ -1,0 +1,1 @@
+// Declarative memory implementation

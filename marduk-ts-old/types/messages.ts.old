@@ -1,0 +1,32 @@
+// This file defines the shared types for communication between the WebSocket server, Marduk Core, and subsystems
+
+// Base interface for all messages
+export interface Message {
+  type: "register" | "task" | "response";
+}
+
+// Register message for subsystem registration
+export interface RegisterMessage extends Message {
+  type: "register";
+  subsystem: string; // Name of the subsystem (e.g., "declarative_memory")
+}
+
+// Task message for sending tasks to subsystems
+export interface TaskMessage extends Message {
+  type: "task";
+  query: string; // The task query (e.g., "Retrieve facts about chaos theory")
+  task_id: number; // Unique ID for the task
+  target?: string; // Optional: Specify a target subsystem
+}
+
+// Response message for sending results back to Marduk Core
+export interface ResponseMessage extends Message {
+  type: "response";
+  subsystem: string; // Name of the responding subsystem
+  task_id: number; // ID of the task being responded to
+  result: any; // The result of the task
+}
+
+// Union type for all possible messages
+export type MessageUnion = RegisterMessage | TaskMessage | ResponseMessage;
+

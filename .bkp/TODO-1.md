@@ -1,0 +1,208 @@
+# Plan for Implementing Missing and Incomplete Features
+
+## Overview
+
+This document outlines the plan for identifying and addressing missing and incomplete features, as well as replacing mock implementations with production-ready features in the `EchoCog/shiny-train` repository.
+
+## Current Situation
+
+- [x] **ErrorBoundary** component created (`marduk-frontend/src/ErrorBoundary.tsx`).
+- [x] **useWebSocket** hook scaffolded (`marduk-frontend/src/useWebSocket.ts`).
+- [x] **Logger** with pino set up (`logger.js`).
+- [x] **/health** endpoint added to backend (`server.js`).
+- [x] **lru-cache** refactor for context management (`marduk-ts/core/ai/ai-coordinator.ts`).
+- [x] **Integrate ErrorBoundary** into `App.tsx` (wrap at top level). 
+- [x] **Refactor WebSocket usage** in `App.tsx` and `Dashboard.tsx` to use new hook. 
+- [x] **Add user notifications** for connection/error states (now uses react-hot-toast for toast notifications).
+- [x] **Advanced backend task prioritization implemented** (`task-manager.ts`, `task_execution.ts`). 
+  - Added weighted/dynamic priority logic, inheritance, decay, and helper methods.
+  - Enhanced `TaskMessage` type with new prioritization fields.
+  - Updated prioritization algorithms and added `getNextTask()` convenience method.
+  - Next: integrate retry logic and resource-aware execution into `task_execution.ts`.
+- [x] **Task Execution Enhancements** - Add retry logic, resource-aware execution, and improved error handling in `task_execution.ts`. *(Completed 2025-05-04)*
+- [x] **Implement memory optimization strategies** in `memory-optimization.ts` and `memory-persistence.ts`.
+- [x] **Update TODO.md** as progress is made.
+
+*Remaining items from PLAN.md and previous TODOs are below for reference.*
+
+- `marduk-frontend/src/App.tsx` lacks comprehensive error handling and reconnection logic for WebSocket connections. 
+- Context management in `marduk-ts/core/ai/ai-coordinator.ts` uses a simple cache mechanism, which may not be sufficient for complex scenarios. 
+- Task prioritization and execution logic in `marduk-ts/core/task/task-manager.ts` and `marduk-ts/core/task_execution.ts` could be enhanced to handle more complex dependencies and conditions. 
+- Integration between subsystems, such as memory, AI, and task management, could be improved for seamless communication and data sharing. 
+- User interface in `marduk-frontend/src/App.tsx` and `marduk-frontend/src/components/Dashboard.tsx` could be improved for better user experience. 
+- Logging and monitoring mechanisms in `marduk-ts/core/logging/logger.ts` and `marduk-ts/core/monitoring/health-monitor.ts` need to be more comprehensive. 
+
+## Proposed Resolution
+
+- Yes, all missing and incomplete features are identified and mock implementations are replaced with production-ready features. 
+- `marduk-frontend/src/App.tsx` now has comprehensive error handling and reconnection logic for WebSocket connections. 
+  - Implemented comprehensive error handling for WebSocket connection, message parsing, and API calls. 
+  - Added robust reconnection logic with exponential backoff strategy. 
+  - Provided user-friendly notifications for different error states. 
+  - Enhanced logging for error events. 
+  - Implemented fallback mechanisms for graceful degradation. 
+  - Used React error boundaries to catch JavaScript errors and display a fallback UI. 
+- `marduk-ts/core/ai/ai-coordinator.ts` now uses an advanced context management system for complex scenarios. 
+  - Implemented sophisticated cache eviction policy (LFU or LRU). 
+  - Enhanced context enrichment process with additional memory subsystems or external data sources. 
+  - Improved context ranking and filtering mechanism with advanced relevance scoring algorithms. 
+  - Added context persistence mechanism across sessions. 
+  - Added validation checks for context data accuracy and consistency. 
+  - Tracked and analyzed context usage metrics. 
+- Task prioritization and execution logic in `marduk-ts/core/task/task-manager.ts` and `marduk-ts/core/task_execution.ts` is enhanced to handle complex dependencies and conditions. 
+  - Implemented advanced prioritization algorithms like weighted priority queues. 
+  - Introduced dynamic priority adjustment based on real-time factors. 
+  - Categorized tasks and applied specific prioritization rules for each category. 
+  - Allowed user-defined priorities for tasks. 
+  - Implemented priority inheritance mechanisms for dependent tasks. 
+  - Introduced priority decay mechanism to prevent indefinite postponement of tasks. 
+- Memory optimization and persistence mechanisms in `marduk-ts/core/memory/utils/memory-optimization.ts` and `marduk-ts/core/memory/utils/memory-persistence.ts` are now robust and handle larger datasets. 
+  - Implemented memory compression and deduplication strategies. 
+  - Enhanced memory persistence with snapshot and restore capabilities. 
+- Integration between subsystems, such as memory, AI, and task management, is improved for seamless communication and data sharing. 
+  - Implemented unified memory query interface for better subsystem communication. 
+  - Enhanced cross-subsystem context enrichment. 
+  - Implemented inter-subsystem event handling. 
+  - Utilized shared logging and monitoring system. 
+  - Implemented subsystem health checks. 
+- User interface in `marduk-frontend/src/App.tsx` and `marduk-frontend/src/components/Dashboard.tsx` is enhanced for better user experience. 
+  - Provided user-friendly notifications for different states. 
+  - Enhanced input handling with validation, auto-suggestions, and command history. 
+  - Ensured responsive design for different screen sizes and devices. 
+  - Added theming and customization options. 
+  - Improved accessibility with keyboard navigation, screen reader support, and high-contrast mode. (ARIA, tab order, high-contrast toggle implemented)
+  - Integrated comprehensive logging and monitoring mechanisms. 
+  - Used React error boundaries to catch JavaScript errors and display a fallback UI. 
+  - Implemented a user feedback mechanism for reporting issues and suggesting improvements. 
+- Logging and monitoring mechanisms in `marduk-ts/core/logging/logger.ts` and `marduk-ts/core/monitoring/health-monitor.ts` are now comprehensive and provide better insights into system performance and issues. 
+
+## Plan
+
+- `marduk-frontend/src/App.tsx` (CHANGE)
+  - Add comprehensive error handling for WebSocket connection, message parsing, and API calls
+  - Implement robust reconnection logic with exponential backoff strategy
+  - Provide user-friendly notifications for different error states
+  - Enhance logging for error events
+  - Implement fallback mechanisms for graceful degradation
+  - Use React error boundaries to catch JavaScript errors and display a fallback UI
+- `marduk-frontend/src/components/Dashboard.tsx` (CHANGE)
+  - Enhance user interface for better user experience
+  - Add error handling for WebSocket messages
+- `marduk-ts/core/ai/ai-coordinator.ts` (CHANGE)
+  - Implement advanced context management system
+  
+### Core AI (`marduk-ts/core/ai`)
+
+- **Enhance AI Context Management (`ai-coordinator.ts`)**
+  - [x] Implement sophisticated cache eviction policy
+    - [x] Created weighted LRU cache that considers frequency, recency, and relevance
+    - [x] Added configurable TTL with extensions for important items
+    - [x] Implemented cache usage monitoring and statistics
+  - [x] Enhance context enrichment process with additional memory subsystems or external data sources
+    - [x] Created flexible context sources framework with standardized interfaces
+    - [x] Implemented adapters for all memory subsystems (semantic, declarative, episodic, procedural)
+    - [x] Added support for document-based and user activity data sources
+    - [x] Implemented framework for external API integrations
+    - [x] Added robust error handling with legacy fallback mechanisms
+  - [x] Improve context ranking/filtering mechanism
+    - [x] Basic improvement: Used `string-similarity` for lexical matching
+    - [x] Advanced improvement: Implemented vector embeddings for semantic similarity
+  - [x] Add context persistence mechanism across sessions
+    - [x] Created ContextPersistence utility for managing persistence of context data
+    - [x] Implemented automatic save/load of context cache
+    - [x] Added snapshot capability for versioned backups
+    - [x] Integrated with AiCoordinator for seamless persistence
+  - [x] Add validation checks for context data accuracy and consistency
+    - [x] Created ContextValidator utility for detecting data quality issues
+    - [x] Implemented validation for malformed, outdated, inconsistent, and redundant data
+    - [x] Added automatic fixing capabilities for common issues
+    - [x] Integrated validation with periodic checks and manual validation API
+  - [x] Track and analyze context usage metrics
+    - [x] Added context source distribution tracking
+    - [x] Enhanced cache statistics reporting
+- `marduk-ts/core/task/task-manager.ts` (CHANGE) (COMPLETED)
+  - [x] Enhance task prioritization logic to handle complex dependencies
+    - [x] Implemented sophisticated dependency tracking and inheritance
+    - [x] Added reverse dependency relationships (dependents tracking)
+    - [x] Created priority boost inheritance through dependency chain
+  - [x] Improve task execution logic to handle complex conditions
+    - [x] Added support for complex condition expressions (AND, OR, NOT operators)
+    - [x] Implemented complete execution lifecycle with resource management
+    - [x] Added detailed status tracking with reasons and timestamps
+  - [x] Implement advanced prioritization algorithms like weighted priority queues
+    - [x] Created configurable priority factors for different task aspects
+    - [x] Implemented category-based task organization and filtering
+    - [x] Added priority calculation with multiple weighted components
+  - [x] Introduce dynamic priority adjustment based on real-time factors
+    - [x] Added system load and resource availability monitoring
+    - [x] Implemented task aging boosts and priority decay
+    - [x] Added handling for stalled and critical system tasks
+  - [x] Categorize tasks and apply specific prioritization rules for each category
+    - [x] Implemented category-based rule system with configurable parameters
+    - [x] Added category-specific load impact handling
+    - [x] Created category-specific priority factor customization
+  - [x] Allow user-defined priorities for tasks
+    - [x] Added symbolic priority expressions (HIGH, MEDIUM, LOW, etc.)
+    - [x] Implemented relative priority expressions (HIGH+2, LOW-1, etc.)
+    - [x] Created user-friendly priority assignment mechanism
+  - [x] Implement priority inheritance mechanisms for dependent tasks
+    - [x] Created priority inheritance through dependency chains
+    - [x] Added bidirectional relationships between tasks
+  - [x] Introduce priority decay mechanism to prevent indefinite postponement of tasks
+    - [x] Implemented aging and decay priority factors
+    - [x] Added configurable decay rates per category
+- `marduk-ts/core/task_execution.ts` (CHANGE) (COMPLETED)
+  - [x] Enhance task execution logic to handle complex conditions
+    - [x] Added support for threshold operator (X of Y conditions must be true)
+    - [x] Implemented detailed condition evaluation tracing and debugging
+    - [x] Added context-aware condition evaluation with error handling
+  - [x] Improve error handling for task execution
+    - [x] Added comprehensive error capture and reporting
+    - [x] Implemented failFast option for critical execution contexts
+    - [x] Added timeout management for task execution
+    - [x] Enhanced logging with structured execution details
+- `marduk-ts/core/memory/utils/memory-optimization.ts` (CHANGE) (COMPLETED)
+  - [x] Improve memory optimization mechanisms to handle larger datasets
+    - [x] Implemented advanced string compression with multiple strategies
+    - [x] Added redundancy detection and pattern recognition
+    - [x] Created optimized methods for large dataset processing
+    - [x] Implemented advanced similarity detection algorithms
+  - [x] Enhance error handling for memory optimization
+    - [x] Added comprehensive error handling with custom error types
+    - [x] Implemented graceful degradation for compression failures
+    - [x] Created retry mechanisms for critical operations
+    - [x] Added detailed logging for optimization processes
+- `marduk-ts/core/memory/utils/memory-persistence.ts` (CHANGE) (COMPLETED)
+  - [x] Improve memory persistence mechanisms to ensure data integrity
+    - [x] Implemented file-level checksums for data verification
+    - [x] Added automatic backup and restore capabilities
+    - [x] Created snapshot system for versioned backups
+    - [x] Added atomic write patterns to prevent corruption
+  - [x] Enhance error handling for memory persistence
+    - [x] Created custom error classes (MemoryPersistenceError, DataIntegrityError)
+    - [x] Added retry mechanism with exponential backoff
+    - [x] Implemented graceful failure handling with backup recovery
+    - [x] Added batch processing for large datasets
+- `marduk-ts/core/logging/logger.ts` (CHANGE) (COMPLETED)
+  - [x] Enhance logging mechanisms to provide better insights into system performance
+    - [x] Implemented structured logging with context tracking
+    - [x] Added aggregated error handling with diagnostic info
+    - [x] Created performance monitoring and logging capabilities
+    - [x] Enhanced log rotation and error reporting
+  - [x] Improve error handling for logging
+    - [x] Added robust error capture and classification
+    - [x] Implemented fallback logging mechanisms
+    - [x] Enhanced error context preservation
+- `marduk-ts/core/monitoring/health-monitor.ts` (CHANGE) (COMPLETED)
+  - [x] Enhance monitoring mechanisms to provide better insights into system performance
+    - [x] Implemented comprehensive resource utilization tracking (CPU, memory, disk)
+    - [x] Added response time metrics with percentile calculations
+    - [x] Created alerts system with configurable thresholds
+    - [x] Added component-level health monitoring with detailed metrics
+  - [x] Improve error handling for health monitoring
+    - [x] Implemented robust error handling with fallback mechanisms
+    - [x] Added consecutive failure tracking and automated alerts
+    - [x] Created detailed health check results with diagnostics
+    - [x] Enhanced automatic recovery procedures
+- `PLAN.md` (ADD)
+  - Add the plan to a `PLAN.md` file
