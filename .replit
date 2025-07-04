@@ -1,0 +1,579 @@
+modules = ["nodejs-20", "web"]
+run = "npm run dev"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "node dist/server.js"]
+build = ["sh", "-c", "npm run build"]
+
+[workflows]
+runButton = "Run Self-Optimizer with Logging"
+
+[[workflows.workflow]]
+name = "Build & Run Marduk"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node dist/server.js"
+
+[[workflows.workflow]]
+name = "Build Marduk"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow]]
+name = "Development Server"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[workflows.workflow]]
+name = "Run Tests"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm test"
+
+[[workflows.workflow]]
+name = "Build with Type Check"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow]]
+name = "Build and Run Task System"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node dist/cycle_simulation.js"
+
+[[workflows.workflow]]
+name = "Memory Subsystem Test"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx ts-node --esm src/core/memory/memory-factory.ts"
+
+[[workflows.workflow]]
+name = "Run Code Analyzer"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node dist/core/autonomy/code-analyzer.js"
+
+[[workflows.workflow]]
+name = "Run Code Analyzer with Debug"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node --trace-warnings dist/core/autonomy/code-analyzer.js"
+
+[[workflows.workflow]]
+name = "Run Self-Optimizer"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node dist/self-optimizer.js"
+
+[[workflows.workflow]]
+name = "Run Memory Optimization"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node dist/self-optimizer.js"
+
+[[workflows.workflow]]
+name = "Test Meta-Cognition"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node --trace-warnings dist/core/autonomy/meta-cognition/reflection-engine.js"
+
+[[workflows.workflow]]
+name = "Run Fixed Self-Optimizer"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/self-optimizer.js"
+
+[[workflows.workflow]]
+name = "Run Self-Optimizer Fixed"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node --trace-warnings dist/core/autonomy/code-analyzer.js"
+
+[[workflows.workflow]]
+name = "Run Fixed Analyzer"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node --trace-warnings dist/core/autonomy/code-analyzer.js"
+
+[[workflows.workflow]]
+name = "Run Core System"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Build and Test Core System"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Build and Run Fixed System"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Build with Complete Type Checking"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"✅ BUILD SUCCESSFUL! Initiating system...\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Debug Build"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node --trace-warnings dist/server.js"
+
+[[workflows.workflow]]
+name = "Build and Test"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"✅ BUILD SUCCESSFUL! System cognitive architecture aligned!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Build with Fixed Types"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"✅ BUILD SUCCESSFUL! System cognitive architecture aligned!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Build with Fixed Neural Pathways"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"✅ BUILD SUCCESSFUL! Cognitive architecture harmonized!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Neural Pathways Realignment"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"✅ NEURAL PATHWAYS REALIGNED! Cognitive architecture in harmony!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Neural Pathways Alignment"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS ALIGNED! ⚡ Cognitive architecture is harmonized!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Memory System Harmonization"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL HARMONIZATION COMPLETE! ⚡ Memory subsystem coherence achieved!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Cognitive Architecture Synchronization"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS ALIGNED! ⚡ Cognitive architecture is now synchronized!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Full Stack Cognitive System"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Enhanced Cognitive System"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node --trace-warnings dist/server.js"
+
+[[workflows.workflow]]
+name = "Server Only"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Enhanced Cognitive Core"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Optimized Cognitive Core"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS OPTIMIZED! ⚡ Cognitive architecture harmonized!\" && node dist/server.js"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow]]
+name = "Cognitive System Orchestration"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS SYNCHRONIZED! ⚡ Dual-node cognitive architecture established!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Cognitive System Build"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS ALIGNED! ⚡ Type system harmonized!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Cognitive Architecture Diagnostic"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Test Meta-Cognitive System"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS ALIGNED! ⚡ Preparing meta-cognition test...\" && node dist/core/autonomy/meta-cognition/reflection-engine.js"
+
+[[workflows.workflow]]
+name = "Test Meta-Cognition System"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS ALIGNED! ⚡ Preparing meta-cognition test...\" && node dist/core/autonomy/meta-cognition/reflection-engine.js"
+
+[[workflows.workflow]]
+name = "Test Metacognitive Harmony"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS REALIGNED! ⚡ Meta-cognitive loops harmonized!\" && node dist/core/autonomy/meta-cognition/reflection-engine.js"
+
+[[workflows.workflow]]
+name = "Full Cognitive System Dashboard"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS ALIGNED! ⚡ Cognitive dashboard activated!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "ES Module Harmonizer"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ MODULE SYSTEM HARMONIZED! ⚡ ES Module patterns aligned!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Enhanced Cognitive Core - Fixed"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node --trace-warnings dist/server.js"
+
+[[workflows.workflow]]
+name = "Enhanced Neural Synchronization"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev & npm run build && node --trace-warnings dist/server.js"
+
+[[workflows.workflow]]
+name = "Integration System"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js & npm run build && node --trace-warnings dist/server.js"
+
+[[workflows.workflow]]
+name = "Validate TypeScript"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsc --noEmit"
+
+[[workflows.workflow]]
+name = "Synchronized Cognitive Architecture"
+author = 40023244
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd marduk-frontend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && echo \"⚡ NEURAL PATHWAYS ALIGNED! ⚡ Type interfaces harmonized!\" && node dist/server.js"
+
+[[workflows.workflow]]
+name = "Validate TypeScript Tests"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsc --noEmit && echo \"⚡ NEURAL PATHWAYS VERIFIED! ⚡ Type system coherence achieved!\""
+
+[[workflows.workflow]]
+name = "Cognitive System Direct"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js"
+
+[[workflows.workflow]]
+name = "Cognitive System Fixed"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js"
+
+[[workflows.workflow]]
+name = "Enhanced Cognitive System Server"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js"
+
+[[workflows.workflow]]
+name = "WebSocket Server"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js"
+
+[[workflows.workflow]]
+name = "Direct WebSocket Server"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js"
+
+[[workflows.workflow]]
+name = "Run Cognitive Architecture Visualization"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/self-optimizer.js"
+
+[[workflows.workflow]]
+name = "Run Cognitive Architecture Visualization Fixed"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/self-optimizer.js"
+
+[[workflows.workflow]]
+name = "Run Self-Optimizer with Logging"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build && node dist/self-optimizer.js"
+
+[[workflows.workflow]]
+name = "Deploy to Webcontainers"
+author = 40023244
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run deploy:webcontainers"
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
+
+[[ports]]
+localPort = 5173
+externalPort = 80

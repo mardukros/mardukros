@@ -1,0 +1,61 @@
+name: Backup
+
+on:
+  push:
+    branches:
+      - main  # Run on every push to the main branch
+  pull_request:  # Run on pull requests to validate changes
+  workflow_dispatch:  # Allow manual triggering
+  schedule:
+    - cron: "0 0 * * *"  # Run daily at midnight UTC
+
+jobs:
+  backup:
+    name: Backup
+    runs-on: ubuntu-latest
+    needs: []  # Runs independently, regardless of CI status
+  
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch full history to avoid HEAD~1 issues
+  
+      # Step 2: Ensure Backup Branch Exists
+      - name: Create or Checkout Backup Branch
+        run: |
+          git fetch origin backup-main || echo "Backup branch does not exist; creating a new one."
+          if git show-ref --verify --quiet refs/heads/backup-main; then
+            git checkout backup-main
+          else
+            git checkout -b backup-main
+          fi
+  
+      # Step 3: Generate Timestamp for Artifact Name
+      - name: Generate Timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date -u +'%Y-%m-%dT%H%M%S')" >> $GITHUB_ENV
+  
+      # Step 4: Backup Files to Backup Branch
+      - name: Backup Files to Backup Branch
+        run: |
+          # Configure Git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+  
+          # Check for changes
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "Backup: ${TIMESTAMP}"
+            git push origin backup-main
+          else
+            echo "No changes detected; skipping backup."
+          fi
+  
+      # Step 5: Upload Backup as Artifact
+      - name: Upload Backup as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: backup-${{ env.TIMESTAMP }}
+          path: ./marduk-ts  # Path to the backup directory
