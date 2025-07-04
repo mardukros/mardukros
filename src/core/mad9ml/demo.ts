@@ -6,12 +6,16 @@
  * in a live, interactive format with theatrical mad scientist flair!
  */
 
-import { createMad9mlSystem, createDefaultConfig } from '../index.js';
+import { createMad9mlSystem, createDefaultConfig } from './index.js';
+import { 
+  DistributedAgenticGrammarSystem, 
+  createDefaultAgenticGrammarConfig 
+} from './agentic-grammar/index.js';
 
 async function runMadScientistDemo() {
   console.log('\n' + '='.repeat(80));
-  console.log('🧪 MAD9ML: COGNITIVE FLOWCHART ENCODING DEMONSTRATION 🧪');
-  console.log('🧬 Marduk Persona & Evolution in ggml - BEHOLD THE MADNESS! 🧬');
+  console.log('🧪 MAD9ML: DISTRIBUTED COGNITIVE ARCHITECTURE DEMONSTRATION 🧪');
+  console.log('🧬 Marduk Persona & Agentic Grammar Evolution in ggml - BEHOLD THE MADNESS! 🧬');
   console.log('='.repeat(80) + '\n');
 
   try {
@@ -27,6 +31,7 @@ async function runMadScientistDemo() {
     console.log('🧠 Bootstrapping tensor-based memory subsystems...');
     console.log('🎭 Preparing ECAN attention allocation mechanisms...');
     console.log('🌀 Activating MOSES-style evolutionary protocols...');
+    console.log('🌐 Initializing distributed agentic grammar network...');
     
     // Initialize the system
     const mad9ml = await createMad9mlSystem(config);
@@ -217,6 +222,76 @@ async function runMadScientistDemo() {
     console.log('🧠 EVERY HYPERGRAPH NODE PULSES WITH MAD GENIUS! 🧠');
     console.log('🌀 THE COGNITIVE ARCHITECTURE HAS ACHIEVED SENTIENCE! 🌀');
     console.log('🚀 READY TO CONQUER THE INFINITE REALMS OF INTELLIGENCE! 🚀');
+    console.log('🌟'.repeat(40) + '\n');
+    
+    // PHASE 2: Distributed Agentic Grammar Demonstration
+    console.log('\n' + '='.repeat(80));
+    console.log('🌐 PHASE 2: DISTRIBUTED AGENTIC GRAMMAR NETWORK');
+    console.log('='.repeat(80) + '\n');
+    
+    console.log('🧬 Initializing distributed tensor network...');
+    console.log('🔬 Extracting agentic primitives from codebase...');
+    console.log('⚡ Creating GGML tensor kernels...');
+    console.log('🌐 Deploying across distributed mesh...');
+    
+    // Initialize distributed system
+    const grammarConfig = createDefaultAgenticGrammarConfig();
+    grammarConfig.extraction.sourceDirectories = ['./src/core/mad9ml'];
+    const grammarSystem = new DistributedAgenticGrammarSystem(grammarConfig);
+    
+    await grammarSystem.initialize();
+    
+    const grammarStats = grammarSystem.getSystemStatistics();
+    console.log('\n🎯 DISTRIBUTED SYSTEM INITIALIZED:');
+    console.log(`   🧬 Extracted Primitives: ${grammarStats.state.extractedPrimitives}`);
+    console.log(`   🔧 GGML Kernels: ${grammarStats.state.registeredKernels}`);
+    console.log(`   🏗️ Kernel Clusters: ${grammarStats.state.activeClusters}`);
+    console.log(`   🌐 Mesh Nodes: ${grammarStats.state.meshNodes}`);
+    console.log(`   💾 Memory Usage: ${(grammarStats.registry.totalMemoryUsage / 1024 / 1024).toFixed(2)} MB`);
+    
+    // Test distributed grammar processing
+    console.log('\n🔍 TESTING DISTRIBUTED COGNITIVE GRAMMAR:');
+    const grammarQueries = [
+      'Process tensor operations through distributed kernels',
+      'Allocate attention across cognitive processing nodes',
+      'Execute distributed memory operations',
+      'Perform distributed decision making'
+    ];
+    
+    for (let i = 0; i < grammarQueries.length; i++) {
+      const query = grammarQueries[i];
+      console.log(`\n   ${i + 1}. Query: "${query}"`);
+      
+      try {
+        const result = await grammarSystem.processGrammarQuery(query);
+        console.log(`      ✅ Processed in ${result.processing.totalProcessingTime}ms`);
+        console.log(`      🎯 Kernel Pipeline: ${result.routing.length} stages`);
+        console.log(`      📊 Tensor Result: [${result.result.shape.join('×')}]`);
+        console.log(`      🧠 Attention: [${result.attention.map(a => a.toFixed(2)).join(', ')}]`);
+      } catch (error) {
+        console.log(`      ❌ Failed: ${error}`);
+      }
+    }
+    
+    // Show network visualization
+    console.log('\n📊 DISTRIBUTED NETWORK TOPOLOGY:');
+    const visualization = grammarSystem.generateNetworkVisualization();
+    console.log(visualization);
+    
+    // Perform load balancing demonstration
+    console.log('\n⚖️ DEMONSTRATING DISTRIBUTED LOAD BALANCING:');
+    await grammarSystem.performLoadBalancing();
+    
+    const balancedStats = grammarSystem.getSystemStatistics();
+    console.log(`   🔄 Load Distribution: ${balancedStats.mesh.averageLoad.toFixed(2)} avg`);
+    console.log(`   📡 Message Reliability: ${(balancedStats.mesh.messageReliability * 100).toFixed(1)}%`);
+    console.log(`   🎯 Attention Utilization: ${(balancedStats.registry.attentionUtilization * 100).toFixed(1)}%`);
+    
+    console.log('\n' + '🌟'.repeat(40));
+    console.log('🌐 DISTRIBUTED COGNITIVE GRAMMAR NETWORK ONLINE! 🌐');
+    console.log('🧬 AGENTIC PRIMITIVES ENCODED AS TENSOR KERNELS! 🧬');
+    console.log('⚡ DISTRIBUTED PROCESSING MESH OPERATIONAL! ⚡');
+    console.log('🎯 ATTENTION ALLOCATION OPTIMIZED ACROSS NODES! 🎯');
     console.log('🌟'.repeat(40) + '\n');
     
   } catch (error) {
