@@ -1,0 +1,13 @@
+marduk-ts/
+├── server.ts                  # WebSocket server
+├── core/
+│   └── marduk_core.ts         # Marduk Core
+├── subsystems/
+│   ├── declarative_memory.ts  # Declarative Memory Subsystem
+│   ├── episodic_memory.ts     # Episodic Memory Subsystem
+│   ├── procedural_memory.ts   # Procedural Memory Subsystem
+│   ├── semantic_memory.ts     # Semantic Memory Subsystem
+├── types/
+│   └── messages.ts            # Shared types for communication
+└── logs/
+    └── marduk_log.json        # Log file for Marduk Core

@@ -1,0 +1,3 @@
+# terminal is powershell - use full path for npm eg,
+"& "C:\Program Files\nodejs\npm.cmd" install my_package"
+for node use "$env:Path += ";C:\Program Files\nodejs""
