@@ -56,6 +56,27 @@ export { ECANAttentionAllocator } from './attention/ecan-allocator.js';
 export { MetaCognitiveEngine } from './meta-cognitive/reflection-engine.js';
 export type { ReflectionResult, SelfModification } from './meta-cognitive/reflection-engine.js';
 
+// Agentic Grammar System
+export { 
+  DistributedAgenticGrammarSystem, 
+  createDefaultAgenticGrammarConfig,
+  AgenticGrammarExtractor,
+  CognitiveKernelRegistry,
+  DistributedOrchestrationMesh
+} from './agentic-grammar/index.js';
+export type {
+  AgenticPrimitiveType,
+  AgenticPrimitive,
+  GrammarToken,
+  GgmlKernel,
+  KernelPort,
+  KernelRegistryEntry,
+  TensorMessage,
+  KernelCluster,
+  DistributedAttentionState,
+  AgenticGrammarConfig
+} from './agentic-grammar/index.js';
+
 /**
  * Creates a default Mad9ml configuration
  */
