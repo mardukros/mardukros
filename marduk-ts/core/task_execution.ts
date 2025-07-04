@@ -545,7 +545,6 @@ function evaluateConditionExpression(
     return false; // Fail safely on errors
   }
 }
-}
 
 /**
  * Check if a condition is satisfied based on memory state

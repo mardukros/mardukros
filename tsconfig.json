@@ -2,6 +2,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
+    "lib": ["ES2022", "ES2022.Object", "ES2022.Array"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
@@ -17,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "marduk-ts/*": ["marduk-ts/*"]
-    }
+    },
+    "types": ["node"]
   },
   "include": ["src/**/*", "marduk-ts/**/*"],
   "exclude": ["node_modules", "**/*.test.ts", "dist/**/*"]

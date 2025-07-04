@@ -1,4 +1,3 @@
-```typescript
 import { MemorySystemFactory } from '../core/memory/memory-factory.js';
 import { logger } from '../core/utils/logger.js';
 import { join } from 'path';
@@ -49,4 +48,3 @@ if (require.main === module) {
 }
 
 export { backupMemory };
-```
