@@ -49,6 +49,13 @@ Marduk is built on a modular cognitive architecture with four primary subsystems
 - **Health Regulation**: Self-healing capabilities with heartbeat monitoring
 - **Resource Management**: Intelligent allocation and optimization of system resources
 
+### MOSES Grammar Evolution
+- **Evolutionary Pipelines**: Meta-Optimizing Semantic Evolutionary Search for grammar modules
+- **Multi-Objective Optimization**: Fitness evaluation across performance, complexity, and expressiveness
+- **Meta-Optimization**: Self-tuning evolution parameters and strategy adaptation
+- **Comprehensive Reporting**: Transparent evolution statistics and emergent insights
+- **Agentic Grammar Integration**: Seamless integration with existing agentic grammar systems
+
 ## Installation
 
 ```bash
@@ -315,6 +322,87 @@ npm run dev:worker
 ├── server.ts            # WebSocket server
 └── worker.ts            # Cloudflare Worker
 ```
+
+## MOSES Grammar Evolution
+
+The Meta-Optimizing Semantic Evolutionary Search (MOSES) system provides advanced evolutionary algorithms for optimizing agentic grammar modules with transparency and emergent insights.
+
+### Quick Start
+
+```bash
+# Run basic grammar evolution demo
+node src/core/mad9ml/grammar-evolution/demo.js basic
+
+# Run comprehensive demo suite
+node src/core/mad9ml/grammar-evolution/demo.js all
+
+# Command-line evolution runner
+node scripts/moses/moses-runner.js --generations 100 --population 50
+
+# Batch experiments with different configurations
+./scripts/moses/batch-experiments.sh
+```
+
+### Key Features
+
+- **Multi-Objective Optimization**: Balance performance, complexity, expressiveness, and adaptability
+- **Meta-Optimization**: Self-tuning evolution parameters for optimal performance
+- **Comprehensive Fitness Evaluation**: 15+ metrics across 5 categories
+- **Transparency & Insights**: Detailed evolution statistics and emergent behavior analysis
+- **Adaptive Strategies**: Real-time parameter adjustment and intervention capabilities
+
+### Example Usage
+
+```typescript
+import { MOSESPipeline, createDefaultEvolutionParams, createMOSESConfig } from './src/core/mad9ml/grammar-evolution/moses-pipeline.js';
+import { createSamplePrimitives } from './src/core/mad9ml/grammar-evolution/demo.js';
+
+// Setup evolution
+const primitives = createSamplePrimitives();
+const evolutionParams = createDefaultEvolutionParams();
+const mosesConfig = createMOSESConfig();
+
+// Run evolution
+const pipeline = new MOSESPipeline(evolutionParams, mosesConfig);
+await pipeline.initialize();
+const result = await pipeline.run(primitives);
+
+console.log(`Best fitness: ${result.bestGenome.fitness.toFixed(4)}`);
+console.log(`Discoveries: ${result.insights.discoveries.length}`);
+```
+
+### Command Line Options
+
+```bash
+# Basic evolution
+node scripts/moses/moses-runner.js --generations 75 --population 30
+
+# Multi-objective optimization
+node scripts/moses/moses-runner.js --objective balanced --multi-run 5
+
+# Meta-optimization
+node scripts/moses/moses-runner.js --meta-optimize 5 --verbose
+
+# Custom parameters
+node scripts/moses/moses-runner.js \
+  --generations 100 \
+  --population 40 \
+  --mutation-rate 0.2 \
+  --crossover-rate 0.7 \
+  --objective performance
+```
+
+### Generated Reports
+
+Evolution runs generate comprehensive reports including:
+
+- **Executive Summary**: Key results and insights
+- **Technical Analysis**: Detailed convergence and population dynamics
+- **Statistical Metrics**: Performance statistics and trends
+- **Visualization Data**: Plots for fitness, diversity, and Pareto fronts
+- **Insights & Recommendations**: Discovered patterns and future directions
+
+For complete documentation, see [docs/moses-grammar-evolution.md](docs/moses-grammar-evolution.md).
 
 ## Roadmap
 
