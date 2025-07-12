@@ -1,0 +1,612 @@
+{
+  "registry": {
+    "id": "ggml-vocabulary-catalog",
+    "name": "GGML Adaptive Vocabulary Catalog",
+    "version": "1.0.0",
+    "description": "Dynamic registry of GGML-adaptive vocabularies with tensor metadata",
+    "autoDiscovery": true,
+    "autoValidation": true,
+    "autoUpdate": true,
+    "lastUpdate": "2024-07-12T15:30:00.000Z"
+  },
+  "statistics": {
+    "totalItems": 15,
+    "implementedItems": 10,
+    "stubItems": 3,
+    "deprecatedItems": 1,
+    "experimentalItems": 1,
+    "validItems": 14,
+    "invalidItems": 1,
+    "averageQuality": 0.82,
+    "totalMemoryUsage": 134217728,
+    "cacheHitRate": 0.95,
+    "healthScore": 0.87,
+    "categoryDistribution": {
+      "tensor-ops": 5,
+      "memory": 3,
+      "attention": 2,
+      "math": 3,
+      "quantization": 1,
+      "legacy": 1
+    },
+    "typeDistribution": {
+      "function": 8,
+      "operator": 4,
+      "kernel": 2,
+      "library": 1
+    }
+  },
+  "vocabularyItems": [
+    {
+      "id": "ggml:tensor_alloc",
+      "name": "ggml_tensor_alloc",
+      "type": "function",
+      "description": "Allocates memory for a new GGML tensor with specified dimensions",
+      "category": "memory",
+      "tags": ["tensor", "allocation", "memory", "core"],
+      "version": "1.0.0",
+      "signature": {
+        "name": "ggml_tensor_alloc",
+        "parameters": [
+          {
+            "name": "ctx",
+            "type": "ggml_context*",
+            "optional": false,
+            "description": "GGML context for memory management"
+          },
+          {
+            "name": "type",
+            "type": "ggml_type",
+            "optional": false,
+            "description": "Data type for tensor elements"
+          },
+          {
+            "name": "ne",
+            "type": "int64_t[]",
+            "tensorShape": [4],
+            "optional": false,
+            "description": "Number of elements in each dimension"
+          }
+        ],
+        "returnType": {
+          "type": "ggml_tensor*",
+          "description": "Pointer to allocated tensor"
+        },
+        "isAsync": false,
+        "isVarArgs": false,
+        "contextRequirements": ["valid_context"]
+      },
+      "tensorMetadata": {
+        "shape": [1],
+        "dataType": "f32",
+        "memoryLayout": "row-major",
+        "alignment": 32,
+        "semantics": {
+          "dimensionMeanings": ["tensor_handle"],
+          "interpretations": {
+            "tensor_handle": "reference to allocated tensor"
+          },
+          "cognitiveRole": "parameter",
+          "abstraction": "concrete"
+        }
+      },
+      "adaptationMetadata": {
+        "mutability": "immutable",
+        "adaptationRate": 0.0,
+        "learningConstraints": {
+          "maxMutationRate": 0.0,
+          "preserveStructure": true,
+          "constrainedDimensions": [],
+          "invariantProperties": ["signature", "memory_safety"],
+          "adaptationBounds": {
+            "min": 0,
+            "max": 0
+          }
+        },
+        "stabilityMetrics": {
+          "convergenceRate": 1.0,
+          "oscillationAmplitude": 0.0,
+          "driftMagnitude": 0.0,
+          "robustness": 1.0,
+          "resilience": 1.0,
+          "adaptability": 0.0
+        }
+      },
+      "implementationStatus": "implemented",
+      "validationResult": {
+        "isValid": true,
+        "isImplemented": true,
+        "isStub": false,
+        "hasTests": true,
+        "hasDocumentation": true,
+        "codeQuality": 0.95,
+        "issues": []
+      },
+      "performanceMetrics": {
+        "computationalComplexity": "O(1)",
+        "memoryComplexity": "O(n)",
+        "parallelizability": 0.0,
+        "cacheEfficiency": 0.9,
+        "throughput": 10000,
+        "latency": 0.1
+      },
+      "kernelIntegration": {
+        "kernelId": "memory-management-kernel",
+        "executionMode": "sync",
+        "resourceRequirements": {
+          "minMemory": 1024,
+          "preferredMemory": 4096,
+          "cpuCores": 1
+        }
+      }
+    },
+    {
+      "id": "ggml:mul_mat",
+      "name": "ggml_mul_mat",
+      "type": "operator",
+      "description": "Matrix multiplication operation for GGML tensors",
+      "category": "math",
+      "tags": ["tensor", "math", "matrix", "multiplication", "linear-algebra"],
+      "version": "1.0.0",
+      "signature": {
+        "name": "ggml_mul_mat",
+        "parameters": [
+          {
+            "name": "ctx",
+            "type": "ggml_context*",
+            "optional": false,
+            "description": "GGML context"
+          },
+          {
+            "name": "a",
+            "type": "ggml_tensor*",
+            "tensorShape": [1024, 768],
+            "optional": false,
+            "description": "First matrix operand"
+          },
+          {
+            "name": "b",
+            "type": "ggml_tensor*",
+            "tensorShape": [768, 512],
+            "optional": false,
+            "description": "Second matrix operand"
+          }
+        ],
+        "returnType": {
+          "type": "ggml_tensor*",
+          "tensorShape": [1024, 512],
+          "dataType": "f32",
+          "description": "Result of matrix multiplication"
+        }
+      },
+      "tensorMetadata": {
+        "shape": [1024, 512],
+        "dataType": "f32",
+        "memoryLayout": "row-major",
+        "alignment": 32,
+        "quantization": {
+          "method": "f32",
+          "bitsPerWeight": 32,
+          "compressionRatio": 1.0,
+          "accuracy": 1.0
+        },
+        "semantics": {
+          "dimensionMeanings": ["output_rows", "output_cols"],
+          "interpretations": {
+            "output_rows": "number of output rows",
+            "output_cols": "number of output columns"
+          },
+          "cognitiveRole": "output",
+          "abstraction": "concrete"
+        }
+      },
+      "adaptationMetadata": {
+        "mutability": "slow",
+        "adaptationRate": 0.05,
+        "evolutionParameters": {
+          "selectionPressure": 0.8,
+          "crossoverRate": 0.6,
+          "mutationProbability": 0.05,
+          "fitnessFunction": "matrix_efficiency"
+        },
+        "stabilityMetrics": {
+          "convergenceRate": 0.95,
+          "robustness": 0.9,
+          "adaptability": 0.3
+        }
+      },
+      "implementationStatus": "implemented",
+      "performanceMetrics": {
+        "computationalComplexity": "O(n³)",
+        "memoryComplexity": "O(n²)",
+        "parallelizability": 0.95,
+        "throughput": 500,
+        "latency": 5.2
+      },
+      "kernelIntegration": {
+        "kernelId": "matrix-ops-kernel",
+        "executionMode": "async",
+        "resourceRequirements": {
+          "minMemory": 8192,
+          "preferredMemory": 32768,
+          "cpuCores": 4,
+          "gpuMemory": 2048
+        }
+      }
+    },
+    {
+      "id": "ggml:attention",
+      "name": "ggml_attention",
+      "type": "kernel",
+      "description": "Multi-head attention mechanism for transformer models",
+      "category": "attention",
+      "tags": ["attention", "transformer", "neural-network", "cognitive"],
+      "version": "1.2.0",
+      "signature": {
+        "name": "ggml_attention",
+        "parameters": [
+          {
+            "name": "q",
+            "type": "ggml_tensor*",
+            "tensorShape": [512, 768],
+            "optional": false,
+            "description": "Query tensor"
+          },
+          {
+            "name": "k",
+            "type": "ggml_tensor*",
+            "tensorShape": [512, 768],
+            "optional": false,
+            "description": "Key tensor"
+          },
+          {
+            "name": "v",
+            "type": "ggml_tensor*",
+            "tensorShape": [512, 768],
+            "optional": false,
+            "description": "Value tensor"
+          },
+          {
+            "name": "mask",
+            "type": "ggml_tensor*",
+            "tensorShape": [512, 512],
+            "optional": true,
+            "description": "Attention mask (optional)"
+          }
+        ],
+        "returnType": {
+          "type": "ggml_tensor*",
+          "tensorShape": [512, 768],
+          "dataType": "f16",
+          "description": "Attention output"
+        }
+      },
+      "tensorMetadata": {
+        "shape": [512, 768],
+        "dataType": "f16",
+        "memoryLayout": "row-major",
+        "alignment": 16,
+        "quantization": {
+          "method": "f16",
+          "bitsPerWeight": 16,
+          "compressionRatio": 2.0,
+          "accuracy": 0.99
+        },
+        "semantics": {
+          "dimensionMeanings": ["sequence_length", "hidden_dim"],
+          "interpretations": {
+            "sequence_length": "input sequence length",
+            "hidden_dim": "hidden layer dimension"
+          },
+          "cognitiveRole": "state",
+          "abstraction": "symbolic"
+        }
+      },
+      "adaptationMetadata": {
+        "mutability": "dynamic",
+        "adaptationRate": 0.2,
+        "learningConstraints": {
+          "maxMutationRate": 0.3,
+          "preserveStructure": false,
+          "constrainedDimensions": [0],
+          "invariantProperties": ["attention_mechanism"],
+          "adaptationBounds": {
+            "min": 0.1,
+            "max": 0.9
+          }
+        },
+        "feedbackMechanisms": [
+          {
+            "type": "attention",
+            "weight": 0.8,
+            "delay": 0,
+            "threshold": 0.7,
+            "enabled": true
+          },
+          {
+            "type": "gradient",
+            "weight": 0.6,
+            "delay": 1,
+            "threshold": 0.1,
+            "enabled": true
+          }
+        ],
+        "stabilityMetrics": {
+          "convergenceRate": 0.85,
+          "oscillationAmplitude": 0.15,
+          "driftMagnitude": 0.1,
+          "robustness": 0.8,
+          "resilience": 0.85,
+          "adaptability": 0.9
+        }
+      },
+      "implementationStatus": "implemented",
+      "performanceMetrics": {
+        "computationalComplexity": "O(n² × d)",
+        "memoryComplexity": "O(n² + nd)",
+        "parallelizability": 0.85,
+        "throughput": 200,
+        "latency": 12.5
+      },
+      "kernelIntegration": {
+        "kernelId": "ecan-attention-kernel",
+        "executionMode": "stream",
+        "resourceRequirements": {
+          "minMemory": 16384,
+          "preferredMemory": 65536,
+          "cpuCores": 8,
+          "gpuMemory": 8192,
+          "specialHardware": ["attention_accelerator"]
+        }
+      },
+      "membraneIntegration": {
+        "membraneId": "attention-membrane",
+        "channelMappings": [
+          {
+            "vocabularyChannel": "attention_input",
+            "membraneChannel": "cognitive_input",
+            "messageFormat": "tensor_stream",
+            "serialization": "protobuf"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ggml:cognitive_memory_bank",
+      "name": "CognitiveMemoryBank",
+      "type": "library",
+      "description": "Data structure for storing cognitive memory representations with adaptive indexing",
+      "category": "memory",
+      "tags": ["memory", "cognitive", "data-structure", "adaptive"],
+      "version": "2.0.0",
+      "tensorMetadata": {
+        "shape": [10000, 1024],
+        "dataType": "f32",
+        "memoryLayout": "row-major",
+        "alignment": 32,
+        "sparsity": {
+          "sparsityRatio": 0.7,
+          "pattern": "structured",
+          "compressionFormat": "csr"
+        },
+        "semantics": {
+          "dimensionMeanings": ["memory_slots", "memory_features"],
+          "interpretations": {
+            "memory_slots": "number of memory entries",
+            "memory_features": "feature dimension per memory"
+          },
+          "cognitiveRole": "state",
+          "abstraction": "symbolic"
+        }
+      },
+      "adaptationMetadata": {
+        "mutability": "moderate",
+        "adaptationRate": 0.15,
+        "learningConstraints": {
+          "maxMutationRate": 0.4,
+          "preserveStructure": true,
+          "constrainedDimensions": [1],
+          "invariantProperties": ["memory_capacity", "retrieval_interface"],
+          "adaptationBounds": {
+            "min": 0.05,
+            "max": 0.8
+          }
+        },
+        "evolutionParameters": {
+          "selectionPressure": 1.2,
+          "crossoverRate": 0.7,
+          "mutationProbability": 0.15,
+          "elitismRatio": 0.2,
+          "diversityPreservation": 0.3,
+          "fitnessFunction": "memory_efficiency"
+        },
+        "stabilityMetrics": {
+          "convergenceRate": 0.9,
+          "oscillationAmplitude": 0.08,
+          "driftMagnitude": 0.05,
+          "robustness": 0.85,
+          "resilience": 0.9,
+          "adaptability": 0.7
+        }
+      },
+      "implementationStatus": "implemented",
+      "performanceMetrics": {
+        "computationalComplexity": "O(log n)",
+        "memoryComplexity": "O(n)",
+        "parallelizability": 0.6,
+        "cacheEfficiency": 0.8,
+        "throughput": 5000,
+        "latency": 0.8
+      }
+    },
+    {
+      "id": "ggml:quantize_experimental",
+      "name": "ggml_quantize_experimental",
+      "type": "function",
+      "description": "Experimental quantization function for adaptive model compression",
+      "category": "quantization",
+      "tags": ["quantization", "compression", "experimental", "adaptive"],
+      "version": "0.8.0-alpha",
+      "implementationStatus": "experimental",
+      "validationResult": {
+        "isValid": true,
+        "isImplemented": true,
+        "isStub": false,
+        "hasTests": false,
+        "hasDocumentation": false,
+        "codeQuality": 0.6,
+        "issues": [
+          {
+            "type": "warning",
+            "severity": "medium",
+            "message": "Experimental feature lacks comprehensive testing",
+            "suggestedFix": "Add unit tests and integration tests"
+          }
+        ]
+      },
+      "tensorMetadata": {
+        "shape": [1, 1],
+        "dataType": "q8_0",
+        "semantics": {
+          "cognitiveRole": "operator",
+          "abstraction": "meta"
+        }
+      }
+    },
+    {
+      "id": "ggml:deprecated_legacy_op",
+      "name": "deprecated_legacy_op",
+      "type": "operator",
+      "description": "Legacy operator that is no longer recommended for use",
+      "category": "legacy",
+      "tags": ["deprecated", "legacy", "obsolete"],
+      "version": "0.5.0",
+      "implementationStatus": "deprecated",
+      "validationResult": {
+        "isValid": false,
+        "isImplemented": true,
+        "isStub": false,
+        "codeQuality": 0.3,
+        "issues": [
+          {
+            "type": "error",
+            "severity": "high",
+            "message": "Deprecated functionality should not be used",
+            "suggestedFix": "Replace with modern equivalent operation"
+          }
+        ]
+      },
+      "usageStatistics": {
+        "callCount": 23,
+        "errorRate": 0.15,
+        "lastUsed": 1625097600000
+      }
+    },
+    {
+      "id": "ggml:stub_future_feature",
+      "name": "stub_future_feature",
+      "type": "function",
+      "description": "Placeholder for future adaptive learning feature",
+      "category": "future",
+      "tags": ["stub", "future", "placeholder"],
+      "version": "0.1.0-stub",
+      "implementationStatus": "stub",
+      "validationResult": {
+        "isValid": false,
+        "isImplemented": false,
+        "isStub": true,
+        "codeQuality": 0.1,
+        "issues": [
+          {
+            "type": "error",
+            "severity": "critical",
+            "message": "Function is not implemented",
+            "suggestedFix": "Implement the function or remove stub"
+          }
+        ]
+      }
+    }
+  ],
+  "inconsistencyReports": [
+    {
+      "itemId": "ggml:deprecated_legacy_op",
+      "inconsistencies": [
+        {
+          "type": "deprecated_usage",
+          "description": "Deprecated item is still being used",
+          "expected": "no usage",
+          "actual": "23 calls",
+          "impact": "medium"
+        }
+      ],
+      "severity": "high",
+      "suggestedActions": [
+        "Update code to use non-deprecated alternatives",
+        "Create migration guide for existing users"
+      ],
+      "autoFixable": false
+    },
+    {
+      "itemId": "ggml:stub_future_feature",
+      "inconsistencies": [
+        {
+          "type": "missing_implementation",
+          "description": "Function is marked as stub without implementation",
+          "expected": "implemented",
+          "actual": "stub",
+          "impact": "high"
+        }
+      ],
+      "severity": "critical",
+      "suggestedActions": [
+        "Implement the function or remove from public API"
+      ],
+      "autoFixable": false
+    }
+  ],
+  "integrationHooks": {
+    "kernelHooks": [
+      {
+        "name": "LoggingKernelHook",
+        "description": "Logs vocabulary usage for monitoring",
+        "enabled": true
+      },
+      {
+        "name": "TensorValidationHook", 
+        "description": "Validates tensor compatibility",
+        "enabled": true
+      },
+      {
+        "name": "PerformanceMonitoringHook",
+        "description": "Monitors performance metrics",
+        "enabled": true
+      }
+    ],
+    "membraneIntegrations": [
+      {
+        "membraneId": "attention-membrane",
+        "vocabularyItems": ["ggml:attention"],
+        "messageTypes": ["tensor_stream", "attention_weights"]
+      }
+    ]
+  },
+  "metaCognitive": {
+    "autoUpdateEnabled": true,
+    "lastAutoUpdate": "2024-07-12T15:25:00.000Z",
+    "adaptationHistory": [
+      {
+        "timestamp": "2024-07-12T15:20:00.000Z",
+        "action": "tensor_shape_optimization",
+        "itemId": "ggml:attention",
+        "before": [512, 768],
+        "after": [512, 768],
+        "reason": "performance_optimization"
+      }
+    ],
+    "learningMetrics": {
+      "adaptationSuccess": 0.87,
+      "stabilityMaintained": 0.93,
+      "performanceImprovement": 0.15
+    }
+  }
+}
