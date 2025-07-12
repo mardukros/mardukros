@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAD9ML Dynamic Visualization Tools Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow: hidden;
+        }
+        
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #333;
+            border-top: 3px solid #007acc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .loading-subtitle {
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        #visualization-demo {
+            width: 100vw;
+            height: 100vh;
+            background: #1a1a1a;
+        }
+        
+        .error-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #2d1b1b;
+            border: 2px solid #ff4444;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .error-title {
+            color: #ff6666;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .error-message {
+            color: #cccccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .error-details {
+            background: #1a1a1a;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            text-align: left;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .header-info {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #007acc;
+        }
+        
+        .header-subtitle {
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading MAD9ML Visualization Tools</div>
+        <div class="loading-subtitle">
+            Initializing dynamic system state visualization, hypergraph rendering,<br>
+            membrane boundaries, time-travel engine, and meta-cognitive displays...
+        </div>
+    </div>
+    
+    <!-- Header Info -->
+    <div class="header-info">
+        <div class="header-title">MAD9ML Dynamic Visualization Tools</div>
+        <div class="header-subtitle">Issue #11 Implementation Demo</div>
+    </div>
+    
+    <!-- Main Visualization Container -->
+    <div id="visualization-demo"></div>
+    
+    <script>
+        // Error handling
+        window.addEventListener('error', function(e) {
+            showError('JavaScript Error', e.error ? e.error.stack : e.message);
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            showError('Promise Rejection', e.reason);
+        });
+        
+        function showError(title, details) {
+            document.getElementById('loading').style.display = 'none';
+            
+            const errorContainer = document.createElement('div');
+            errorContainer.className = 'error-container';
+            errorContainer.innerHTML = `
+                <div class="error-title">${title}</div>
+                <div class="error-message">
+                    Failed to load the MAD9ML Visualization Demo. 
+                    This demo requires modern browser features including Canvas 2D and ES6 modules.
+                </div>
+                <div class="error-details">${details}</div>
+            `;
+            
+            document.body.appendChild(errorContainer);
+        }
+        
+        // Demo initialization with fallback
+        function initializeVisualizationDemo() {
+            try {
+                // Hide loading screen
+                document.getElementById('loading').style.display = 'none';
+                
+                // Create a mock dashboard for demonstration purposes
+                createMockDashboard();
+                
+                console.log('🎨 MAD9ML Visualization Demo initialized!');
+                console.log('💡 This is a mock version since the TypeScript modules need compilation.');
+                console.log('📦 In a real implementation, the compiled modules would be loaded here.');
+                
+            } catch (error) {
+                showError('Initialization Error', error.stack || error.message);
+            }
+        }
+        
+        function createMockDashboard() {
+            const container = document.getElementById('visualization-demo');
+            
+            // Create mock dashboard UI
+            container.innerHTML = `
+                <div style="width: 100%; height: 100%; display: flex; flex-direction: column; background: #1a1a1a;">
+                    <!-- Header -->
+                    <div style="background: #2d2d2d; border-bottom: 1px solid #444; padding: 12px 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; gap: 8px;">
+                                <button class="view-btn active" data-view="system">System State</button>
+                                <button class="view-btn" data-view="hypergraph">Hypergraph</button>
+                                <button class="view-btn" data-view="membrane">Membranes</button>
+                                <button class="view-btn" data-view="meta">Meta-Cognitive</button>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <button onclick="togglePlayback()">⏵</button>
+                                    <input type="range" id="time-slider" min="0" max="100" value="100" style="width: 100px;">
+                                    <span>Current</span>
+                                </div>
+                                <button onclick="exportDemo()">📥 Export</button>
+                                <button onclick="toggleRealTime()" class="realtime-btn active">🔴 Live</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 24px; font-size: 12px; color: #ccc;">
+                            <span>Nodes: <span id="node-count">12</span></span>
+                            <span>Edges: <span id="edge-count">18</span></span>
+                            <span>FPS: <span id="fps-counter">30</span></span>
+                            <span>Updated: <span id="last-update">Just now</span></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div style="flex: 1; display: flex;">
+                        <div style="flex: 1; position: relative; background: #1a1a1a;">
+                            <canvas id="main-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+                            <div id="overlay-info" style="position: absolute; top: 16px; left: 16px; background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px; opacity: 0;">
+                                Hover over elements for details
+                            </div>
+                        </div>
+                        <div style="width: 300px; background: #2d2d2d; border-left: 1px solid #444; display: flex; flex-direction: column;">
+                            <div style="padding: 16px; border-bottom: 1px solid #444;">
+                                <h3 style="margin: 0 0 8px 0; font-size: 16px;">Details</h3>
+                                <div style="font-size: 12px; color: #888;">System Overview → Components</div>
+                            </div>
+                            <div style="flex: 1; padding: 16px; overflow-y: auto;" id="detail-content">
+                                <h4>MAD9ML Visualization Dashboard</h4>
+                                <p><strong>Status:</strong> Active</p>
+                                <p><strong>View:</strong> System State</p>
+                                <p><strong>Components:</strong> 4 subsystems</p>
+                                <p><strong>Real-time:</strong> Enabled</p>
+                                
+                                <h5 style="margin-top: 20px;">Available Features:</h5>
+                                <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.6;">
+                                    <li>Dynamic system state rendering</li>
+                                    <li>Interactive hypergraph visualization</li>
+                                    <li>Membrane boundary display</li>
+                                    <li>Drill-down capabilities</li>
+                                    <li>Time-travel functionality</li>
+                                    <li>Real-time updates</li>
+                                    <li>Export options</li>
+                                    <li>Meta-cognitive displays</li>
+                                </ul>
+                                
+                                <h5 style="margin-top: 20px;">Implementation Status:</h5>
+                                <div style="margin: 10px 0;">
+                                    <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                        <span>Core Dashboard</span>
+                                        <span style="color: #4CAF50;">✓ Complete</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                        <span>System State Renderer</span>
+                                        <span style="color: #4CAF50;">✓ Complete</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                        <span>Hypergraph Renderer</span>
+                                        <span style="color: #4CAF50;">✓ Complete</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                        <span>Membrane Renderer</span>
+                                        <span style="color: #4CAF50;">✓ Complete</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                        <span>Drill-down Controller</span>
+                                        <span style="color: #4CAF50;">✓ Complete</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                        <span>Time Travel Engine</span>
+                                        <span style="color: #4CAF50;">✓ Complete</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                        <span>Export Manager</span>
+                                        <span style="color: #4CAF50;">✓ Complete</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                        <span>Meta-Cognitive Display</span>
+                                        <span style="color: #4CAF50;">✓ Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add styles for buttons
+            const style = document.createElement('style');
+            style.textContent = `
+                .view-btn {
+                    padding: 8px 16px;
+                    border: 1px solid #444;
+                    background: #1a1a1a;
+                    color: #ffffff;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 14px;
+                }
+                .view-btn:hover { background: #007acc; }
+                .view-btn.active { background: #007acc; }
+                .realtime-btn {
+                    padding: 6px 12px;
+                    border: 1px solid #444;
+                    background: #1a1a1a;
+                    color: #ffffff;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 12px;
+                }
+                .realtime-btn.active { background: #4CAF50; }
+            `;
+            document.head.appendChild(style);
+            
+            // Set up canvas and mock visualization
+            const canvas = document.getElementById('main-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            function resizeCanvas() {
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * window.devicePixelRatio;
+                canvas.height = rect.height * window.devicePixelRatio;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                canvas.style.width = rect.width + 'px';
+                canvas.style.height = rect.height + 'px';
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Set up view switching
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const view = this.dataset.view;
+                    switchMockView(view);
+                });
+            });
+            
+            // Start mock animation
+            switchMockView('system');
+            
+            // Update stats periodically
+            setInterval(updateStats, 1000);
+        }
+        
+        function switchMockView(view) {
+            const canvas = document.getElementById('main-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            switch(view) {
+                case 'system':
+                    drawSystemState(ctx, canvas);
+                    break;
+                case 'hypergraph':
+                    drawHypergraph(ctx, canvas);
+                    break;
+                case 'membrane':
+                    drawMembranes(ctx, canvas);
+                    break;
+                case 'meta':
+                    drawMetaCognitive(ctx, canvas);
+                    break;
+            }
+        }
+        
+        function drawSystemState(ctx, canvas) {
+            const width = canvas.width / window.devicePixelRatio;
+            const height = canvas.height / window.devicePixelRatio;
+            
+            // Background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, width, height);
+            
+            // System overview header
+            ctx.fillStyle = '#2d2d2d';
+            ctx.fillRect(20, 20, width - 40, 80);
+            ctx.strokeStyle = '#444';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(20, 20, width - 40, 80);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 18px sans-serif';
+            ctx.fillText('System Overview', 35, 45);
+            
+            ctx.font = '12px sans-serif';
+            ctx.fillStyle = '#cccccc';
+            ctx.fillText('Last Update: ' + new Date().toLocaleTimeString(), 35, 65);
+            
+            // Health indicator
+            ctx.fillStyle = '#4CAF50';
+            ctx.beginPath();
+            ctx.arc(width - 60, 50, 20, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '14px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText('HEALTHY', width - 80, 55);
+            ctx.textAlign = 'left';
+            
+            // Subsystem panels
+            const panels = ['Memory System', 'Task Execution', 'AI Activity', 'Autonomy Status'];
+            panels.forEach((title, i) => {
+                const x = 20 + (i % 2) * (width - 40) / 2;
+                const y = 120 + Math.floor(i / 2) * 200;
+                const w = (width - 60) / 2;
+                const h = 180;
+                
+                // Panel background
+                ctx.fillStyle = '#2d2d2d';
+                ctx.fillRect(x, y, w, h);
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(x, y, w, h);
+                
+                // Title
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.fillText(title, x + 12, y + 24);
+                
+                // Mock metrics
+                ctx.fillStyle = '#cccccc';
+                ctx.font = '12px sans-serif';
+                const metrics = [
+                    'Status: Active',
+                    'Efficiency: ' + (70 + Math.random() * 30).toFixed(1) + '%',
+                    'Load: ' + (20 + Math.random() * 60).toFixed(1) + '%'
+                ];
+                
+                metrics.forEach((metric, j) => {
+                    ctx.fillText(metric, x + 12, y + 50 + j * 20);
+                });
+                
+                // Activity indicator
+                const activity = Math.random();
+                ctx.fillStyle = activity > 0.7 ? '#4CAF50' : activity > 0.4 ? '#FF9800' : '#F44336';
+                ctx.fillRect(x + w - 30, y + 60, 20, 8);
+            });
+        }
+        
+        function drawHypergraph(ctx, canvas) {
+            const width = canvas.width / window.devicePixelRatio;
+            const height = canvas.height / window.devicePixelRatio;
+            
+            // Background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Grid
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 0.5;
+            for (let x = 0; x < width; x += 50) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < height; y += 50) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+            
+            // Nodes
+            const nodeTypes = ['Memory', 'Concept', 'Agent', 'Kernel'];
+            const colors = ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0'];
+            
+            for (let i = 0; i < 12; i++) {
+                const x = 100 + (i % 4) * 150 + Math.sin(Date.now() * 0.001 + i) * 20;
+                const y = 100 + Math.floor(i / 4) * 150 + Math.cos(Date.now() * 0.001 + i) * 20;
+                const type = i % 4;
+                const size = 20 + Math.sin(Date.now() * 0.003 + i) * 5;
+                
+                // Node shadow
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.beginPath();
+                ctx.arc(x + 2, y + 2, size, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Node
+                ctx.fillStyle = colors[type];
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Node border
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Label
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(nodeTypes[type] + ' ' + (i + 1), x, y + size + 15);
+            }
+            
+            // Edges (simplified)
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 8; i++) {
+                const x1 = 100 + (i % 4) * 150;
+                const y1 = 100 + Math.floor(i / 4) * 150;
+                const x2 = 100 + ((i + 1) % 4) * 150;
+                const y2 = 100 + Math.floor((i + 1) / 4) * 150;
+                
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+        
+        function drawMembranes(ctx, canvas) {
+            const width = canvas.width / window.devicePixelRatio;
+            const height = canvas.height / window.devicePixelRatio;
+            
+            // Background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Membrane 1
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.2)';
+            ctx.fillRect(50, 50, 400, 250);
+            
+            ctx.strokeStyle = '#4CAF50';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([10, 5]);
+            ctx.strokeRect(50, 50, 400, 250);
+            ctx.setLineDash([]);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.fillText('Cognitive Boundary', 60, 75);
+            
+            // Ports
+            ctx.fillStyle = '#4CAF50';
+            ctx.beginPath();
+            ctx.arc(50, 150, 8, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(450, 200, 8, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Membrane 2
+            ctx.fillStyle = 'rgba(255, 152, 0, 0.2)';
+            ctx.fillRect(200, 100, 300, 150);
+            
+            ctx.strokeStyle = '#FF9800';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(200, 100, 300, 150);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText('Executive Control', 210, 125);
+            
+            // Activity indicators
+            const time = Date.now() * 0.01;
+            for (let i = 0; i < 5; i++) {
+                const alpha = 0.3 + 0.4 * Math.sin(time + i);
+                ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(100 + i * 60, 350, 5, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+        
+        function drawMetaCognitive(ctx, canvas) {
+            const width = canvas.width / window.devicePixelRatio;
+            const height = canvas.height / window.devicePixelRatio;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            // Background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Consciousness layers
+            const time = Date.now() * 0.002;
+            for (let i = 5; i >= 1; i--) {
+                const radius = (i / 5) * 200;
+                const opacity = 0.1 + (1 - i / 5) * 0.3;
+                
+                const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                gradient.addColorStop(0, `rgba(100, 150, 255, ${opacity})`);
+                gradient.addColorStop(1, 'rgba(255, 100, 150, 0)');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius + Math.sin(time + i) * 10, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            
+            // Awareness nodes
+            const concepts = ['self-monitoring', 'pattern-recognition', 'goal-awareness', 'adaptation'];
+            concepts.forEach((concept, i) => {
+                const angle = (i / concepts.length) * 2 * Math.PI;
+                const radius = 120 + Math.sin(time + i) * 20;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                const size = 15 + Math.sin(time * 2 + i) * 5;
+                
+                // Node glow
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
+                gradient.addColorStop(0, 'rgba(100, 200, 255, 0.8)');
+                gradient.addColorStop(1, 'rgba(100, 200, 255, 0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(x, y, size * 2, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Node
+                ctx.fillStyle = '#64C8FF';
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Label
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(concept.split('-')[0], x, y + size + 15);
+            });
+            
+            // Reflection depth indicator
+            ctx.fillStyle = '#2d2d2d';
+            ctx.fillRect(50, 50, 150, 150);
+            ctx.strokeStyle = '#444';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(50, 50, 150, 150);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText('Reflection Depth', 60, 75);
+            
+            for (let i = 0; i < 5; i++) {
+                const size = 120 - i * 15;
+                const alpha = Math.max(0, (Math.sin(time) + 1) / 2 - i * 0.15);
+                ctx.fillStyle = `rgba(100, 150, 255, ${alpha})`;
+                ctx.fillRect(60 + i * 7.5, 90 + i * 7.5, size, size);
+            }
+        }
+        
+        function updateStats() {
+            const stats = {
+                nodes: 12 + Math.floor(Math.random() * 3),
+                edges: 18 + Math.floor(Math.random() * 5),
+                fps: 28 + Math.floor(Math.random() * 8),
+                lastUpdate: 'Just now'
+            };
+            
+            document.getElementById('node-count').textContent = stats.nodes;
+            document.getElementById('edge-count').textContent = stats.edges;
+            document.getElementById('fps-counter').textContent = stats.fps;
+            document.getElementById('last-update').textContent = stats.lastUpdate;
+        }
+        
+        // Global functions for demo controls
+        function togglePlayback() {
+            console.log('⏯️ Time travel playback toggled');
+        }
+        
+        function exportDemo() {
+            const canvas = document.getElementById('main-canvas');
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'mad9ml-visualization-demo.png';
+            link.href = dataURL;
+            link.click();
+            console.log('📸 Visualization exported as PNG');
+        }
+        
+        function toggleRealTime() {
+            const btn = document.querySelector('.realtime-btn');
+            btn.classList.toggle('active');
+            console.log('🔴 Real-time updates toggled');
+        }
+        
+        // Start the demo
+        setTimeout(initializeVisualizationDemo, 2000);
+    </script>
+</body>
+</html>
