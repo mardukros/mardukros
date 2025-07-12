@@ -5,6 +5,11 @@
  * with the MAD9ML cognitive architecture.
  */
 
+import { ECANAttentionKernel as ECANKernel } from './ecan-attention-kernel.js';
+import { ECANAttentionCoordinator as ECANCoordinator } from './ecan-attention-coordinator.js';
+import { ECANAttentionMonitor as ECANMonitor } from './ecan-attention-monitor.js';
+import type { DistributedTask as Task, AttentionAllocationResult as AllocationResult } from './ecan-attention-coordinator.js';
+
 // Core ECAN components
 export { 
   ECANAttentionKernel, 
@@ -35,14 +40,14 @@ export {
  * integrated with the MAD9ML cognitive architecture.
  */
 export class ECANAttentionSystem {
-  public readonly kernel: ECANAttentionKernel;
-  public readonly coordinator: ECANAttentionCoordinator;
-  public readonly monitor: ECANAttentionMonitor;
+  public readonly kernel: ECANKernel;
+  public readonly coordinator: ECANCoordinator;
+  public readonly monitor: ECANMonitor;
 
   constructor() {
-    this.kernel = new ECANAttentionKernel();
-    this.coordinator = new ECANAttentionCoordinator();
-    this.monitor = new ECANAttentionMonitor();
+    this.kernel = new ECANKernel();
+    this.coordinator = new ECANCoordinator();
+    this.monitor = new ECANMonitor();
   }
 
   /**
@@ -73,10 +78,10 @@ export class ECANAttentionSystem {
    * Process distributed tasks with ECAN attention allocation
    */
   public async processDistributedTasks(
-    tasks: DistributedTask[],
+    tasks: Task[],
     goals: any[],
     context: any
-  ): Promise<AttentionAllocationResult> {
+  ): Promise<AllocationResult> {
     // Allocate attention
     const result = await this.coordinator.allocateAttentionForDistributedTasks(tasks, goals, context);
     
@@ -102,8 +107,8 @@ export class ECANAttentionSystem {
    * Simulate attention shifting for testing
    */
   public async simulateAttentionShifting(
-    initialTasks: DistributedTask[],
-    newTasks: DistributedTask[],
+    initialTasks: Task[],
+    newTasks: Task[],
     goals: any[]
   ): Promise<any> {
     return await this.coordinator.simulateAttentionShifting(initialTasks, newTasks, goals);
@@ -113,8 +118,8 @@ export class ECANAttentionSystem {
    * Verify resource optimization
    */
   public verifyResourceOptimization(
-    result: AttentionAllocationResult,
-    tasks: DistributedTask[]
+    result: AllocationResult,
+    tasks: Task[]
   ): any {
     return this.coordinator.verifyResourceOptimization(result, tasks);
   }

@@ -139,7 +139,7 @@ async function demonstrateECANSystem(): Promise<void> {
   
   // Show shift details
   console.log('\n   Kernel-specific shifts:');
-  shiftingResult.shiftAnalysis.kernelShifts.forEach((shift, kernelId) => {
+  shiftingResult.shiftAnalysis.kernelShifts.forEach((shift: any, kernelId: string) => {
     console.log(`   • ${kernelId}: activation shift ${shift.activationShift.toFixed(3)}`);
   });
   
