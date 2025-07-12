@@ -1,0 +1,11 @@
+{
+  "name": "run-synergy-tests",
+  "version": "1.0.0",
+  "description": "Multi-Kernel Synergy Test Runner Script",
+  "main": "test-runner.js",
+  "scripts": {
+    "test": "node test-runner.js",
+    "demo": "node demo.js"
+  },
+  "type": "module"
+}
