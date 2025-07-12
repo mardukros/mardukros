@@ -6,7 +6,7 @@ on:
 jobs:
   marduk-test:
     name: Run Marduk Cycles
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
 
     steps:
       # Step 1: Checkout Repository
