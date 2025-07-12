@@ -373,7 +373,7 @@ export class WebSocketVisualizationClient {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+          console.error('Error in event handler for %s:', event, error);
         }
       });
     }
