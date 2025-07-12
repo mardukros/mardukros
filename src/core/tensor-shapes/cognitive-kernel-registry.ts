@@ -7,6 +7,7 @@
  */
 
 import { TensorShape } from '../mad9ml/types.js';
+import { ECANAttentionKernel } from '../attention/ecan-attention-kernel.js';
 
 /**
  * Cognitive degrees of freedom analysis for tensor shape determination
@@ -49,7 +50,7 @@ export interface CognitiveKernelDefinition {
   id: string;
   name: string;
   description: string;
-  category: 'memory' | 'task' | 'ai' | 'autonomy' | 'meta-cognitive';
+  category: 'memory' | 'task' | 'ai' | 'autonomy' | 'meta-cognitive' | 'attention';
   degreesOfFreedom: CognitiveDegreesOfFreedom;
   functionalComplexity: FunctionalComplexity;
   tensorShape: TensorShape;
@@ -123,12 +124,22 @@ export class CognitiveKernelRegistry {
     this.registerKernel(this.createReflectionEngineKernel());
     this.registerKernel(this.createSelfEvaluationKernel());
     this.registerKernel(this.createAdaptationControllerKernel());
+
+    // ECAN Attention System Kernel
+    this.registerKernel(ECANAttentionKernel.createECANKernelDefinition());
   }
 
   /**
    * Register a cognitive kernel definition
    */
   private registerKernel(kernel: CognitiveKernelDefinition): void {
+    this.kernels.set(kernel.id, kernel);
+  }
+
+  /**
+   * Register a cognitive kernel definition (public method)
+   */
+  public registerExternalKernel(kernel: CognitiveKernelDefinition): void {
     this.kernels.set(kernel.id, kernel);
   }
 

@@ -19,7 +19,7 @@
     "paths": {
       "marduk-ts/*": ["marduk-ts/*"]
     },
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
   "include": ["src/**/*", "marduk-ts/**/*"],
   "exclude": ["node_modules", "**/*.test.ts", "dist/**/*"]
