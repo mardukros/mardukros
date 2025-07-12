@@ -246,6 +246,25 @@ export function normalize(tensor: Tensor): Tensor {
 }
 
 /**
+ * Computes dot product between two tensors
+ */
+export function dotProduct(a: Tensor, b: Tensor): number {
+  if (!shapesEqual(a.shape, b.shape)) {
+    throw new Error(`Shape mismatch: ${a.shape} vs ${b.shape}`);
+  }
+  
+  const aData = a.data as Float32Array;
+  const bData = b.data as Float32Array;
+  
+  let result = 0;
+  for (let i = 0; i < a.size; i++) {
+    result += aData[i] * bData[i];
+  }
+  
+  return result;
+}
+
+/**
  * Computes cosine similarity between two tensors
  */
 export function cosineSimilarity(a: Tensor, b: Tensor): number {

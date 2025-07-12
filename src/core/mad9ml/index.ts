@@ -119,3 +119,15 @@ export async function createMad9mlSystem(config?: Partial<any>) {
   await system.initialize();
   return system;
 }
+
+// Export hypergraph grammar engine components
+export { 
+  HypergraphGrammarEngine,
+  createDefaultHypergraphGrammarConfig,
+  type HypergraphPattern,
+  type PatternTransformation,
+  type PatternMatchResult,
+  type AnalysisMetrics
+} from './hypergraph-grammar-engine';
+
+export { runHypergraphGrammarDemo } from './hypergraph-grammar-demo';
