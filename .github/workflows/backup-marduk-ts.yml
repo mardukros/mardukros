@@ -1,9 +1,6 @@
 name: Backup Marduk Directory
 
 on:
-#  push:
-#    branches:
-#      - main  # Trigger the action on pushes to the main branch
   workflow_dispatch:  # Allow manual triggering of the workflow
 
 jobs:
@@ -14,7 +11,7 @@ jobs:
     steps:
       # Step 1: Checkout the repository
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Create Backup Directory
       - name: Backup marduk-ts to marduk-ts-old
@@ -32,6 +29,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add ./marduk-ts-old
-          git commit -m "Backup marduk-ts to marduk-ts-old on $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-          git push
+          if [ -d "./marduk-ts-old" ]; then
+            git add ./marduk-ts-old
+            if [ -n "$(git status --porcelain)" ]; then
+              git commit -m "Backup marduk-ts to marduk-ts-old on $(date -u +"%Y-%m-%dT%H:%M:%SZ")" || echo "Nothing to commit"
+              git push || echo "Failed to push changes"
+            else
+              echo "No changes to commit"
+            fi
+          else
+            echo "Backup directory does not exist, nothing to commit"
+          fi

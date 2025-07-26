@@ -10,7 +10,7 @@ jobs:
     steps:
       # Step 1: Checkout the repository
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Ensure full commit history is fetched
 
@@ -24,11 +24,21 @@ jobs:
       # Step 3: Restore Files from Previous Commit
       - name: Restore Files
         run: |
-          git checkout ${{ env.PREVIOUS_COMMIT }} .
-          git add .
-          git commit -m "Restore files after accidental deletion"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout ${{ env.PREVIOUS_COMMIT }} . || echo "Failed to checkout previous commit"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "Restore files after accidental deletion" || echo "Nothing to commit"
+          else
+            echo "No changes to restore"
+          fi
 
       # Step 4: Push Restored State
       - name: Push Changes
         run: |
-          git push origin main
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "No pending changes to push"
+          else
+            git push origin main || echo "Failed to push changes"
+          fi

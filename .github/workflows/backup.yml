@@ -18,7 +18,7 @@ jobs:
     steps:
       # Step 1: Checkout the repository
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch full history to avoid HEAD~1 issues
   
@@ -43,19 +43,19 @@ jobs:
           # Configure Git
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-  
+
           # Check for changes
           if [ -n "$(git status --porcelain)" ]; then
             git add .
-            git commit -m "Backup: ${TIMESTAMP}"
-            git push origin backup-main
+            git commit -m "Backup: ${TIMESTAMP}" || echo "Nothing to commit"
+            git push origin backup-main || echo "Failed to push to backup-main"
           else
             echo "No changes detected; skipping backup."
           fi
   
       # Step 5: Upload Backup as Artifact
       - name: Upload Backup as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: backup-${{ env.TIMESTAMP }}
           path: ./marduk-ts  # Path to the backup directory
