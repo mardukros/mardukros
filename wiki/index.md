@@ -10,6 +10,7 @@ Navigate to the [README](README.md) to get started.
 ### Core Architecture
 - [Architecture Overview](architecture/overview.md)
 - [Cognitive Architecture](architecture/cognitive-architecture.md)
+- **[🔧 Technical Architecture](architecture/technical-architecture.md)** - Comprehensive technical implementation with detailed Mermaid diagrams
 - **[📊 Complete Mermaid Diagrams](architecture/mermaid-diagrams.md)** - Comprehensive visual architecture analysis
 - **[🧠 Cognitive Flows & Hypergraph Processing](architecture/cognitive-flows-mermaid.md)** - Advanced cognitive processing visualizations
 
@@ -24,6 +25,7 @@ Navigate to the [README](README.md) to get started.
 - [Getting Started](guides/getting-started.md)
 - [API Reference](api/index.md)
 - [Development Guide](development/index.md)
+- **[🚀 Node-llama-cpp Roadmap](development/node-llama-cpp-roadmap.md)** - Strategic development plan for local AI inference
 
 ## Core Subsystems
 

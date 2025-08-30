@@ -70,6 +70,16 @@ npm run dev:worker
 └── worker.ts            # Cloudflare Worker
 ```
 
+## Development Roadmaps
+
+### 🚀 Strategic Implementation Plans
+
+- **[Node-llama-cpp Integration Roadmap](development/node-llama-cpp-roadmap.md)**
+  - Comprehensive development plan for local AI inference
+  - Technical requirements and infrastructure changes
+  - Implementation phases and migration strategy
+  - Risk assessment and timeline with milestones
+
 ## Coding Standards
 
 - Follow TypeScript best practices
