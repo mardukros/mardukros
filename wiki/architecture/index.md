@@ -14,6 +14,7 @@ graph TD
             COGNITIVE[Cognitive Architecture<br/>🧠 Core Intelligence Design]
             NEURAL[Neural-Symbolic Integration<br/>🌉 Hybrid Intelligence]
             DATAFLOW[Data Flow Pathways<br/>🌊 Information Dynamics]
+            TECHNICAL[Technical Architecture<br/>🔧 Comprehensive Implementation]
         end
         
         subgraph "Subsystem Documentation"
@@ -80,6 +81,11 @@ graph TD
    - High-level system design with interactive Mermaid diagrams
    - Core principles and system interactions
    - Information flow and technical implementation
+
+1. **[Technical Architecture](architecture/technical-architecture.md)**
+   - Comprehensive technical implementation documentation
+   - Detailed subsystem specifications with Mermaid diagrams
+   - Infrastructure, deployment, and API architecture
 
 2. **[Cognitive Architecture](architecture/cognitive-architecture.md)**
    - Detailed cognitive system design
