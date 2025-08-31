@@ -1,0 +1,86 @@
+name: Setup Roadmap Labels
+
+on:
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  setup-labels:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Roadmap Labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              {
+                name: 'roadmap',
+                color: '0052cc',
+                description: 'Issues generated from project roadmap'
+              },
+              {
+                name: 'node-llama-cpp',
+                color: '7057ff',
+                description: 'Related to node-llama-cpp integration'
+              },
+              {
+                name: 'phase-1',
+                color: 'd4c5f9',
+                description: 'Phase 1: Foundation & Infrastructure'
+              },
+              {
+                name: 'phase-2',
+                color: 'c2e0c6',
+                description: 'Phase 2: Core Integration'
+              },
+              {
+                name: 'phase-3',
+                color: 'ffeaa7',
+                description: 'Phase 3: Advanced Features'
+              },
+              {
+                name: 'phase-4',
+                color: 'fab1a0',
+                description: 'Phase 4: Production Readiness'
+              },
+              {
+                name: 'priority-high',
+                color: 'd73a49',
+                description: 'High priority task'
+              },
+              {
+                name: 'priority-medium',
+                color: 'fbca04',
+                description: 'Medium priority task'
+              },
+              {
+                name: 'priority-low',
+                color: '28a745',
+                description: 'Low priority task'
+              }
+            ];
+            
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+                console.log(`✅ Created label: ${label.name}`);
+              } catch (error) {
+                if (error.status === 422) {
+                  console.log(`⏭️  Label already exists: ${label.name}`);
+                } else {
+                  console.log(`❌ Failed to create label ${label.name}: ${error.message}`);
+                }
+              }
+            }
