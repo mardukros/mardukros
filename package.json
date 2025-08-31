@@ -37,6 +37,7 @@
     "itty-router": "^4.2.2",
     "lru-cache": "^11.1.0",
     "node-cache": "^5.1.2",
+    "node-llama-cpp": "^2.8.16",
     "openai": "^4.24.1",
     "pino": "^9.6.0",
     "string-similarity": "^4.0.4",

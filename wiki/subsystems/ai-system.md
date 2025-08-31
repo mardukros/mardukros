@@ -225,11 +225,12 @@ The AI Coordinator manages AI resource allocation and orchestrates interactions 
 Interfaces with external AI providers through **provider-agnostic abstractions**:
 
 - **OpenAI client** with advanced prompt engineering
+- **LlamaCpp client** for local inference with node-llama-cpp integration
 - **Local model clients** with edge computing optimization
 - **Multi-provider clients** (Anthropic, Google, etc.) with unified interfaces
 - **Mock clients** for testing with realistic behavior simulation
 
-**Technical Implementation**: `OpenAiClient` and other provider-specific client classes with **adaptive interface patterns**.
+**Technical Implementation**: `OpenAiClient`, `LlamaCppClient`, and other provider-specific client classes with **adaptive interface patterns**.
 
 ### Integration
 
@@ -285,7 +286,7 @@ Robust error recovery mechanisms:
 ## Usage Example
 
 ```typescript
-import { aiCoordinator } from 'marduk-ts';
+import { aiCoordinator, LlamaCppClient } from 'marduk-ts';
 
 // Process a query with the AI system
 const aiResponse = await aiCoordinator.processQuery(
@@ -320,6 +321,36 @@ if (aiResponse.metadata.confidence > 0.8) {
     }
   });
 }
+```
+
+### Using LlamaCpp for Local Inference
+
+```typescript
+import { LlamaCppClient } from 'marduk-ts';
+
+// Initialize LlamaCpp client with local model
+const llamaClient = LlamaCppClient.getInstance({
+  modelPath: '/path/to/your/model.gguf',
+  contextSize: 4096,
+  temperature: 0.7,
+  gpuLayers: 32 // Use GPU acceleration if available
+});
+
+// Initialize the model
+await llamaClient.initialize();
+
+// Generate response using local inference
+const response = await llamaClient.generateResponse({
+  prompt: 'What are the benefits of local AI inference?',
+  context: ['Privacy', 'Reduced latency', 'Offline capability'],
+  temperature: 0.8,
+  maxTokens: 256
+});
+
+console.log(response.content);
+
+// Clean up resources when done
+await llamaClient.cleanup();
 ```
 
 ## Integration with Other Subsystems
