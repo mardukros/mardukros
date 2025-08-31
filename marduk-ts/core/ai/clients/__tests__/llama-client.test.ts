@@ -1,4 +1,4 @@
-import { LlamaCppClient, LlamaCppConfig } from '../core/ai/clients/llama-client.js';
+import { LlamaCppClient, LlamaCppConfig } from '../llama-client';
 
 describe('LlamaCppClient', () => {
   const mockConfig: LlamaCppConfig = {
